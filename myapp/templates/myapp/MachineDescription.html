@@ -10,12 +10,12 @@
 <body>
     <nav>
         <ul class="navbar">
-          <li><a href="Home.html">Home</a></li>
-          <li><a href="Login.html">Login</a></li>
-          <li><a href="AboutUs.html">About Us</a></li>
-          <li><a href="MachineDescription.html">Machine Description</a></li>
-          <li><a href="Products.html">Products</a></li>
-          <li><a href="Guide.html">Guide</a></li>
+            <li><a href="{% url 'myapp:home' %}">Home</a></li>
+            <li><a href="{% url 'myapp:login' %}">Login</a></li>
+            <li><a href="{% url 'myapp:about' %}">About Us</a></li>
+            <li><a href="{% url 'myapp:machineDescription' %}">Machine Description</a></li>
+            <li><a href="{% url 'myapp:products' %}">Products</a></li>
+            <li><a href="{% url 'myapp:guide' %}">Guide</a></li>
         </ul>
       </nav>
     <!-- Top Logo -->
