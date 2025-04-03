@@ -1,0 +1,61 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Django runserver",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "runserver"
+            ],
+            "django": true,
+            "autoStartBrowser": false,
+            "program": "${workspaceFolder}/manage.py"
+        },
+        {
+            "name": "Django makemigrations",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "makemigrations"
+            ],
+            "program": "${workspaceFolder}/manage.py"
+        },
+        {
+            "name": "Django migrate",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "migrate"
+            ],
+            "program": "${workspaceFolder}/manage.py"
+        },
+        {
+            "name": "Django createsuperuser",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "createsuperuser",
+                "--noinput"
+            ],
+            "env": {
+                "DJANGO_SUPERUSER_USERNAME": "admin",
+                "DJANGO_SUPERUSER_PASSWORD": "admin",
+                "DJANGO_SUPERUSER_EMAIL": "admin@localhost"
+            },
+            "program": "${workspaceFolder}/manage.py"
+        },
+        {
+            "name": "Django shell",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "shell"
+            ],
+            "program": "${workspaceFolder}/manage.py"
+        }
+    ]
+}
