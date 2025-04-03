@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ACME Employees System -Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'myapp/Login.css' %}">
+</head>
+
+<body>
+  <nav>
+    <ul class="navbar">
+        <li><a href="Home.html">Home</a></li>
+        <li><a href="index.html">Login</a></li>
+        <li><a href="AboutUs.html">About Us</a></li>
+        <li><a href="MachineDescription.html">Machine Description</a></li>
+        <li><a href="Products.html">Products</a></li>
+        <li><a href="Guide.html">Guide</a></li>
+    </ul>
+</nav>
+  <!-- Background Image -->
+  <div class="background"></div>
+
+  <!-- Login Form -->
+  <div class="page-content">
+    <div class="login-container">
+      <form class="login-form">
+        <h1>ACME Employees System</h1>
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter Your Username" required>
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
+        </div>
+        <button type="submit" class="login-button">Log in</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
