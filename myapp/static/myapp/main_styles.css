@@ -1,0 +1,35 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: black;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Top Logo */
+.logo-container {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #f4f4f4;
+}
+
+.logo {
+    width: 150px;
+    height: auto;
+}
+
+/* Footer */
+footer {
+    background-color: darkblue;
+    color: white;
+    text-align: left;
+    padding: 10px 0;
+}
