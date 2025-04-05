@@ -53,24 +53,15 @@ If "DATABASE_URL" is blank, it will default to an SQLite database on the /app/st
 
 Install [Docker](https://www.docker.com/) on your system.
 
-You can use Visual Studio Code "Docker" plugin, or the included build tasks (Ctrl+P + "task") or these command line commands:
 
 To build:
-```
-docker build . -t myapp
-```
+`docker build . -t myapp`
 
 To create a persistent storage volume:
-```
-docker volume create myapp-storage
-```
+`docker volume create myapp-storage`
 
 To run the container:
-```
-docker run -ti -v myapp-storage:/app/storage -p 8000:8000 mysite
-```
+`docker run -ti -v myapp-storage:/app/storage -p 8000:8000 myapp`
 
 To delete the persistent volume (i.e. any stored files and test databases)
-```
-docker volume rm myapp-storage
-```
+`docker volume rm myapp-storage`
