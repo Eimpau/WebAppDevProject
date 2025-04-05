@@ -8,27 +8,27 @@ from django.utils import timezone
 
 def home(request):
     context = {}
-    return render(request, "myapp/Home.html", context)
+    return render(request, "myapp/index.html", context)
 
 def about(request):
     context = {}
-    return render(request, "myapp/AboutUs.html", context)
+    return render(request, "myapp/about.html", context)
 
 def guide(request):
     context = {}
-    return render(request, "myapp/Guide.html", context)
+    return render(request, "myapp/guide.html", context)
 
 def login(request):
     context = {}
-    return render(request, "myapp/Login.html", context)
+    return render(request, "myapp/login.html", context)
 
-def machineDescription(request):
+def machines(request):
     context = {}
-    return render(request, "myapp/MachineDescription.html", context)
+    return render(request, "myapp/machines.html", context)
 
 def products(request):
     context = {}
-    return render(request, "myapp/Products.html", context)
+    return render(request, "myapp/products.html", context)
 
 
 
