@@ -12,11 +12,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 # Project specific configuration
-ENV DJANGO_SUPERUSER_USERNAME "admin"
-ENV DJANGO_SUPERUSER_PASSWORD "admin"
-ENV DJANGO_SUPERUSER_EMAIL "admin@localhost"
-ENV DATABASE_URL "sqlite:////app/storage/db.sqlite3"
+ENV DJANGO_SUPERUSER_USERNAME="admin"
+ENV DJANGO_SUPERUSER_PASSWORD="admin"
+ENV DJANGO_SUPERUSER_EMAIL="admin@localhost"
+ENV DATABASE_URL="sqlite:////app/storage/db.sqlite3"
  
 EXPOSE 8000
 
-CMD ["sh", "/app/docker_entrypoint.sh"]
+CMD ["bash", "/app/docker_entrypoint.sh"]
