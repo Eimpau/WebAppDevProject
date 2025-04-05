@@ -1,40 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ACME Employees System -Login</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'myapp/Login.css' %}">
-</head>
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block title %}ACME Employees System -Login{% endblock %}
 
-<body>
-  <nav>
-    <ul class="navbar">
-      <li><a href="{% url 'myapp:home' %}">Home</a></li>
-      <li><a href="{% url 'myapp:login' %}">Login</a></li>
-      <li><a href="{% url 'myapp:about' %}">About Us</a></li>
-      <li><a href="{% url 'myapp:machineDescription' %}">Machine Description</a></li>
-      <li><a href="{% url 'myapp:products' %}">Products</a></li>
-      <li><a href="{% url 'myapp:guide' %}">Guide</a></li>
-    </ul>
-</nav>
-  <!-- Background Image -->
-  <div class="background"></div>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'myapp/login.css' %}">
+{% endblock %}
 
-  <!-- Login Form -->
-  <div class="page-content">
-    <div class="login-container">
-      <form class="login-form">
-        <h1>ACME Employees System</h1>
-        <div class="input-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" placeholder="Enter Your Username" required>
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
-        </div>
-        <button type="submit" class="login-button">Log in</button>
-      </form>
-    </div>
+{% block content %} <!-- This is the start of the content block -->
+
+<!-- Background Image -->
+<div class="background"></div>
+
+<!-- Login Form -->
+<div class="page-content">
+  <div class="login-container">
+    <form class="login-form">
+      <h1>ACME Employees System</h1>
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter Your Username" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
+      </div>
+      <button type="submit" class="login-button">Log in</button>
+    </form>
   </div>
-</body>
-</html>
+</div>
+
+{% endblock %}

@@ -1,25 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ACME Manufacturing Corp. - Home</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'myapp/Home.css' %}">
+<!-- The main Home page for this website -->
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block title %}ACME Manufacturing Corp. - Home{% endblock %}
 
-</head>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'myapp/home.css' %}">
+{% endblock %}
 
-<body>
-    <!-- Navigation Bar -->
-    <nav>
-        <ul class="navbar">
-            <li><a href="{% url 'myapp:home' %}">Home</a></li>
-            <li><a href="{% url 'myapp:login' %}">Login</a></li>
-            <li><a href="{% url 'myapp:about' %}">About Us</a></li>
-            <li><a href="{% url 'myapp:machineDescription' %}">Machine Description</a></li>
-            <li><a href="{% url 'myapp:products' %}">Products</a></li>
-            <li><a href="{% url 'myapp:guide' %}">Guide</a></li>
-        </ul>
-    </nav>
+{% block content %} <!-- This is the start of the content block -->
+
 
     <!--Top large image with textarea -->
     <section class="banner">
@@ -69,9 +58,4 @@
 
     </main>
 
-<footer>
-    <p>©Copyright 1910-2025 by Acme Manufacturing Corporation.</p>
-</footer>
-
-</body>
-</html>
+{% endblock %}
