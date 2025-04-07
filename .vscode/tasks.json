@@ -43,7 +43,7 @@
         {
             "label": "Docker Run",
             "type": "shell",
-            "command": "docker run -ti -v myapp-storage:/app/storage -p 8000:8000 mysite",
+            "command": "docker run -ti -v myapp-storage:/app/storage -p 8000:8000 myapp",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
