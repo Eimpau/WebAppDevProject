@@ -1,0 +1,36 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block title %}ACME Products - ACME Manufacturing{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'myapp/products.css' %}">
+{% endblock %}
+
+{% block content %} <!-- This is the start of the content block -->
+
+  <header class="products-header">
+    <h1>Our Products</h1>
+    <p>Explore ACME’s specialized tools and solutions designed for advanced manufacturing needs.</p>
+  </header>
+
+  <main class="products-list">
+    <section class="product-card">
+      <img src="{% static 'images/buffing_machine.jpg' %}" alt="Buffing Machine">
+      <h2>Buffing Machine</h2>
+      <p>Delivers smooth, uniform surface finishes using automated polishing techniques. Ideal for high-volume production lines.</p>
+    </section>
+
+    <section class="product-card">
+      <img src="{% static 'images/deburring_machine.jpg' %}" alt="Deburring Machine">
+      <h2>Deburring Machine</h2>
+      <p>Utilizes rotary tools and brushes for edge finishing and removal of excess material. Efficient and highly adaptive.</p>
+    </section>
+
+    <section class="product-card">
+      <img src="{% static 'images/gridding_machine.jpg' %}" alt="Grinding Machine">
+      <h2>Grinding Machine</h2>
+      <p>Robotic systems designed to remove excess weld or casting material while ensuring dimensional accuracy and repeatability.</p>
+    </section>
+  </main>
+
+  {% endblock %}

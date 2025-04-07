@@ -1,0 +1,93 @@
+<!-- The main Home page for this website -->
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'myapp/machine_styles.css' %}">
+{% endblock %}
+
+{% block content %} <!-- This is the start of the content block -->
+
+<!-- Top Logo -->
+<div class="logo-container">
+    <img src="{% static 'images/banner.jpg' %}" alt="ACME Logo" class="logo">
+</div>
+
+<!-- Machine Description Sections -->
+<section class="machine-section buffing machine">
+    <div class="machine-media">
+
+        <div class="machine-image">
+            <img src="{% static 'images/buffing_machine.jpg' %}" alt="Buffing Machine">
+        </div>
+
+
+        <div class="machine-video">
+            <iframe width="560" height="500" src="https://www.youtube.com/embed/9mXO_Tnok98"
+                title="10 Robotic Buffing Applications In a Minute!" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>        
+    </div>
+
+    <div class="machine-description">
+        <h2>Buffing Machine</h2>
+        <ul>
+            <li>High-speed polishing capabilities</li>
+            <li>Automated surface finishing</li>
+            <li>Energy-efficient operation</li>
+        </ul>
+    </div>
+</section>
+
+<section class="machine-section deburring machine">
+    <div class="machine-media">
+        <div class="machine-image">
+            <img src="{% static 'images/deburring_machine.jpg' %}" alt="Deburring Machine">
+        </div>
+
+        <div class="machine-video">
+            <iframe width="560" height="500" src="https://www.youtube.com/embed/q0K6b49eZcs"
+                title="2014 Acme Robotic Deburring Machine, Model Number M22857 | GE Aviation Auburn, AL - Lot 4"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="machine-description">
+        <h2>Deburring Machine</h2>
+        <ul>
+            <li>Multi-axis robotic control</li>
+            <li>Adaptive tooling system</li>
+            <li>Real-time quality monitoring</li>
+        </ul>
+    </div>
+</section>
+
+<section class="machine-section gridding-machine">
+    <div class="machine-media">
+        <div class="machine-image">
+            <img src="{% static 'images/gridding_machine.jpg' %}" alt="Gridding Machine">
+        </div>
+
+        <div class="machine-video">
+            <iframe width="560" height="500" src="https://www.youtube.com/embed/DRbdmhqCUw8"
+                title="Automated Robotic Weld Grinding System in Action" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="machine-description">
+        <h2>Gridding Machine</h2>
+        <ul>
+            <li>Precision abrasive control</li>
+            <li>Automated material handling</li>
+            <li>Dust collection system</li>
+        </ul>
+    </div>
+</section>
+
+{% endblock %} <!-- This is the end of the content block -->

@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'myapp/main_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'myapp/navbar.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    {% include "myapp/navbar.html" %}
+
+    {% block content %}(no content){% endblock %}
+
+    <footer>
+        <p>© Copyright 1910-2025 by Acme Manufacturing Corporation.</p>
+    </footer>
+
+</body>
+
+</html>

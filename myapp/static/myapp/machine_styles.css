@@ -1,0 +1,78 @@
+/* Machine Sections */
+.machine-section {
+    margin: 30px auto;
+    padding: 30px;
+    max-width: 1200px;
+    background-color: #e6f2ff; /* Light blue background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.machine-media {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 30px;
+    gap: 30px;
+}
+
+.machine-image {
+    flex: 1;
+}
+
+.machine-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+     display: block;
+     margin: 0 auto
+}
+
+.machine-video {
+    flex: 1;
+}
+
+.machine-video iframe {
+    width: 100%;
+    height: 500px;
+    border-radius: 8px;
+    border: none;
+}
+
+.machine-description {
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.machine-description h2 {
+    color: #0066cc;
+    margin-bottom: 15px;
+}
+
+.machine-description p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.machine-description ul {
+    margin-left: 20px;
+    padding-left: 10px;
+}
+
+.machine-description li {
+    margin-bottom: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .machine-media {
+        flex-direction: column;
+    }
+
+    .machine-video iframe {
+        height: 250px;
+    }
+}
