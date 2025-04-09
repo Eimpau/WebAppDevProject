@@ -1,4 +1,3 @@
-<!-- The main Home page for this website -->
 {% extends 'myapp/base.html' %}
 {% load static %}
 {% block title %}Home{% endblock %}
@@ -17,11 +16,9 @@
 <!-- Machine Description Sections -->
 <section class="machine-section buffing machine">
     <div class="machine-media">
-
         <div class="machine-image">
             <img src="{% static 'images/buffing_machine.jpg' %}" alt="Buffing Machine">
         </div>
-
 
         <div class="machine-video">
             <iframe width="560" height="500" src="https://www.youtube.com/embed/9mXO_Tnok98"
@@ -86,6 +83,126 @@
             <li>Precision abrasive control</li>
             <li>Automated material handling</li>
             <li>Dust collection system</li>
+        </ul>
+    </div>
+</section>
+
+<section class="machine-section laser-cutter">
+    <div class="machine-media">
+        <div class="machine-image">
+            <img src="{% static 'images/laser_cutter.jpg' %}" alt="Laser Cutter">
+        </div>
+
+        <div class="machine-video">
+            <iframe width="560" height="500" src="https://www.youtube.com/embed/C0ZXALGOiOA"
+                title="Laser Cutter in Action" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="machine-description">
+        <h2>Laser Cutter</h2>
+        <ul>
+            <li>Precision laser cutting machine for metals and plastics</li>
+            <li>Ideal for custom shapes and rapid prototyping</li>
+            <li>High-speed, precise cutting for intricate designs</li>
+        </ul>
+    </div>
+</section>
+
+<section class="machine-section cnc-mill">
+    <div class="machine-media">
+        <div class="machine-image">
+            <img src="{% static 'images/cnc_mill.jpg' %}" alt="CNC Milling Machine">
+        </div>
+
+        <div class="machine-video">
+            <iframe width="560" height="500" src="https://www.youtube.com/embed/Dh1eUb_UWUQ"
+                title="CNC Milling Machine Overview" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="machine-description">
+        <h2>CNC Milling Machine</h2>
+        <ul>
+            <li>Computer-controlled machine for precise component production</li>
+            <li>Capable of machining metals and plastics to tight tolerances</li>
+            <li>Perfect for creating complex geometries</li>
+        </ul>
+    </div>
+</section>
+
+<section class="machine-section 3d-printer">
+    <div class="machine-media">
+        <div class="machine-image">
+            <img src="{% static 'images/3d_printer.jpg' %}" alt="3D Printer">
+        </div>
+
+        <div class="machine-video">
+            <iframe width="560" height="500" src="https://www.youtube.com/embed/uAMSXqYDRwI"
+                title="3D Printer in Action" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="machine-description">
+        <h2>3D Printer</h2>
+        <ul>
+            <li>Advanced additive manufacturing tool for prototyping</li>
+            <li>Supports a variety of materials, including plastics and composites</li>
+            <li>Ideal for small-batch production and custom parts</li>
+        </ul>
+    </div>
+</section>
+
+<section class="machine-section hydraulic-press">
+    <div class="machine-media">
+        <div class="machine-image">
+            <img src="{% static 'images/hydraulic_press.jpg' %}" alt="Hydraulic Press">
+        </div>
+
+        <div class="machine-video">
+            <iframe width="560" height="500" src="https://www.youtube.com/embed/oUGXKyTudC4"
+                title="Hydraulic Press Overview" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="machine-description">
+        <h2>Hydraulic Press</h2>
+        <ul>
+            <li>Powerful machine using hydraulic force to compress materials</li>
+            <li>Commonly used for metal forming, punching, and molding operations</li>
+            <li>Offers high pressure and consistent results</li>
+        </ul>
+    </div>
+</section>
+
+<section class="machine-section welding-robot">
+    <div class="machine-media">
+        <div class="machine-image">
+            <img src="{% static 'images/welding_robot.jpg' %}" alt="Welding Robot">
+        </div>
+
+        <div class="machine-video">
+            <iframe width="560" height="500" src="https://www.youtube.com/embed/ary321jhkUw"
+                title="Welding Robot in Action" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="machine-description">
+        <h2>Welding Robot</h2>
+        <ul>
+            <li>Automated robotic system for precision welding</li>
+            <li>Improves speed, consistency, and safety in welding operations</li>
+            <li>Ideal for complex welds and high-volume production</li>
         </ul>
     </div>
 </section>

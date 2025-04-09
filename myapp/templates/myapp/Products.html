@@ -8,29 +8,60 @@
 
 {% block content %} <!-- This is the start of the content block -->
 
-  <header class="products-header">
-    <h1>Our Products</h1>
-    <p>Explore ACME’s specialized tools and solutions designed for advanced manufacturing needs.</p>
-  </header>
+<header class="products-header">
+  <h1>Our Products</h1>
+  <p>Explore ACME’s specialized tools and solutions designed for advanced manufacturing needs.</p>
+</header>
 
-  <main class="products-list">
-    <section class="product-card">
-      <img src="{% static 'images/buffing_machine.jpg' %}" alt="Buffing Machine">
-      <h2>Buffing Machine</h2>
-      <p>Delivers smooth, uniform surface finishes using automated polishing techniques. Ideal for high-volume production lines.</p>
-    </section>
+<main class="products-list">
+  <section class="product-card">
+    <img src="{% static 'images/buffing_machine.jpg' %}" alt="Buffing Machine">
+    <h2>Buffing Machine</h2>
+    <p>Delivers smooth, uniform surface finishes using automated polishing techniques. Ideal for high-volume production lines.</p>
+  </section>
 
-    <section class="product-card">
-      <img src="{% static 'images/deburring_machine.jpg' %}" alt="Deburring Machine">
-      <h2>Deburring Machine</h2>
-      <p>Utilizes rotary tools and brushes for edge finishing and removal of excess material. Efficient and highly adaptive.</p>
-    </section>
+  <section class="product-card">
+    <img src="{% static 'images/deburring_machine.jpg' %}" alt="Deburring Machine">
+    <h2>Deburring Machine</h2>
+    <p>Utilizes rotary tools and brushes for edge finishing and removal of excess material. Efficient and highly adaptive.</p>
+  </section>
 
-    <section class="product-card">
-      <img src="{% static 'images/gridding_machine.jpg' %}" alt="Grinding Machine">
-      <h2>Grinding Machine</h2>
-      <p>Robotic systems designed to remove excess weld or casting material while ensuring dimensional accuracy and repeatability.</p>
-    </section>
-  </main>
+  <section class="product-card">
+    <img src="{% static 'images/gridding_machine.jpg' %}" alt="Grinding Machine">
+    <h2>Grinding Machine</h2>
+    <p>Robotic systems designed to remove excess weld or casting material while ensuring dimensional accuracy and repeatability.</p>
+  </section>
+
+  <section class="product-card">
+    <img src="{% static 'images/laser_cutter.jpg' %}" alt="Laser Cutter">
+    <h2>Laser Cutter</h2>
+    <p>Precision laser cutting machine for metals and plastics. Ideal for custom shapes and rapid prototyping.</p>
+  </section>
+
+  <section class="product-card">
+    <img src="{% static 'images/cnc_mill.jpg' %}" alt="CNC Milling Machine">
+    <h2>CNC Milling Machine</h2>
+    <p>Computer-controlled machine that produces highly accurate components from metal or plastic. Perfect for complex geometries.</p>
+  </section>
+
+  <section class="product-card">
+    <img src="{% static 'images/3d_printer.jpg' %}" alt="3D Printer">
+    <h2>3D Printer</h2>
+    <p>Advanced additive manufacturing tool for prototyping and small-batch production using a variety of materials.</p>
+  </section>
+
+  <section class="product-card">
+    <img src="{% static 'images/hydraulic_press.jpg' %}" alt="Hydraulic Press">
+    <h2>Hydraulic Press</h2>
+    <p>Powerful machine using hydraulic cylinders to compress materials. Commonly used for metal forming, punching, and molding operations.</p>
+  </section>
+
+  <section class="product-card">
+    <img src="{% static 'images/welding_robot.jpg' %}" alt="Welding Robot">
+    <h2>Welding Robot</h2>
+    <p>Automated robotic system for high-precision welding applications. Enhances speed, consistency, and safety in manufacturing lines.</p>
+  </section>
+</main>
 
   {% endblock %}
+

@@ -48,6 +48,3 @@ def products(request):
     context = {}
     return render(request, "myapp/products.html", context)
 
-
-
-
