@@ -1,5 +1,9 @@
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'myapp/navbar.css' %}">
+{% endblock %}
+
 <nav>
     <ul>
         <li><a href="{% url 'myapp:home' %}">Home</a></li>

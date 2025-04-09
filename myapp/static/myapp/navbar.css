@@ -1,25 +1,57 @@
-/* Navigation Bar */
-nav ul{
+nav {
+    background: linear-gradient(145deg, #1a1a2e, #16213e); /* Subtle gradient for depth */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for a floating effect */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 0 20px;
+    transition: all 0.3s ease; /* Smooth transitions */
+}
+
+nav ul {
     list-style: none;
     display: flex;
-    background-color: floralwhite;
-    padding:  0;
+    justify-content: space-between; /* Align items to the left */
+    align-items: center;
     margin: 0;
+    padding: 0;
+    height: 65px;
 }
 
-nav li{
-    flex: 1;
+nav li {
     text-align: center;
+    margin: 0 18px; /* Balance the space between items */
 }
 
-nav a{
+nav a {
     display: block;
+    padding: 18px 22px; /* Slightly more padding for better clickability */
+    color: #f0f0f0;
     text-decoration: none;
-    color: deepskyblue;
-    padding: 14px 0;
-    transition: background-color 0.3s;
+    font-size: 1.1em;
+    font-weight: 600; /* Make the text a bit bolder for visibility */
+    text-transform: capitalize; /* Capitalize for readability */
+    border-radius: 8px; /* Rounded corners for a smooth appearance */
+    transition: all 0.3s ease-in-out; /* Smooth hover transitions */
 }
 
 nav a:hover {
-    background-color: powderblue;
+    background-color: #00c8ff; /* Bright hover color */
+    color: #1a1a2e; /* Change text color on hover */
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+nav ul li.logo {
+    display: flex;
+    align-items: center;
+}
+
+nav ul li.logo img {
+    height: 40px;
+    width: auto;
+}
+
+nav ul li a:focus {
+    outline: none; /* Remove focus outline for cleaner design */
 }

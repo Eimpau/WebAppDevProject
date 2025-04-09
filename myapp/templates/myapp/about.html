@@ -2,9 +2,14 @@
 {% load static %}
 {% block title %}About Us - ACME Manufacturing{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'myapp/about.css' %}">
-{% endblock %}
+<head>
+    <link rel="stylesheet" href="{% static 'myapp/style.css' %}">
+    {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'myapp/about.css' %}">
+    {% endblock %}
+</head>
+
+
 
 {% block content %} <!-- This is the start of the content block -->
 

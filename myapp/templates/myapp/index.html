@@ -9,7 +9,6 @@
 
 {% block content %} <!-- This is the start of the content block -->
 
-
     <!--Top large image with textarea -->
     <section class="banner">
         <img src="{% static 'images/banner.jpg' %}" alt="Robot Metal Processing">
@@ -55,6 +54,11 @@
             </div>
         </div>
     </section>
+
+    <!-- View More Button (Below the product cards) -->
+    <div class="view-more">
+        <a href="{% url 'myapp:products' %}" class="btn-view-more">View More</a>
+    </div>
 
     </main>
 
