@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manager Dashboard - ACME</title>
+  <link rel="stylesheet" href="/myapp/static/myapp/manager_dashboard.css" />
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 60%;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <h1>ACME Manufacturing Manager Panel</h1>
+  </nav>
+
+  <main class="container">
+    <h2>Welcome, Manager!</h2>
+
+    <!-- Status Summary Cards -->
+    <div class="status-cards">
+      <div class="card green">
+        <h3>Active Machines</h3>
+        <p>24</p>
+      </div>
+      <div class="card yellow">
+        <h3>Machines Needing Attention</h3>
+        <p>5</p>
+      </div>
+      <div class="card red">
+        <h3>Faulty Machines</h3>
+        <p>2</p>
+      </div>
+    </div>
+
+    <!-- Collection Filter -->
+    <section class="table-section">
+      <h3>Filter by Machine Collection</h3>
+      <select>
+        <option>All Collections</option>
+        <option>MainCampus</option>
+        <option>Building-A</option>
+        <option>Soldering-Machines</option>
+      </select>
+    </section>
+
+    <!-- Add/Delete Machines -->
+    <section class="table-section">
+      <h3>Manage Machinery</h3>
+      <form class="add-machine-form">
+        <input type="text" placeholder="Machine Name" required />
+        <input type="text" placeholder="Location/Collection" required />
+        <button type="submit">Add Machine</button>
+      </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Machine</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Machine A1</td>
+            <td>OK</td>
+            <td><button class="delete-btn">Delete</button></td>
+          </tr>
+          <tr>
+            <td>Machine B3</td>
+            <td>Fault</td>
+            <td><button class="delete-btn">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Assignment Table -->
+    <section class="table-section">
+      <h3>Assign Technicians or Repair Personnel</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Machine</th>
+            <th>Status</th>
+            <th>Assigned Technician</th>
+            <th>Assigned Repair</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Machine A1</td>
+            <td>Warning</td>
+            <td>
+              <select>
+                <option>-- Select Technician --</option>
+                <option>Joe</option>
+                <option>Ana</option>
+              </select>
+            </td>
+            <td>
+              <select>
+                <option>-- Select Repair --</option>
+                <option>Chris</option>
+                <option>Lina</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Machine B3</td>
+            <td>Fault</td>
+            <td>
+              <select>
+                <option>-- Select Technician --</option>
+                <option>Joe</option>
+                <option>Ana</option>
+              </select>
+            </td>
+            <td>
+              <select>
+                <option>-- Select Repair --</option>
+                <option>Chris</option>
+                <option>Lina</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Export Report -->
+    <div style="text-align: right; margin-top: 2rem;">
+      <button onclick="alert('Export functionality coming soon!')">📄 Export Report</button>
+    </div>
+
+    <!-- Fault Cases Table -->
+    <section class="table-section">
+      <h3>Recent Fault Cases</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Machine</th>
+            <th>Issue</th>
+            <th>Reported By</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Machine A1</td>
+            <td>Temperature Spike</td>
+            <td>Joe</td>
+            <td class="status in-progress">In Progress</td>
+            <td>2025-04-07</td>
+            <td><a href="#" onclick="openModal()">View</a></td>
+          </tr>
+          <tr>
+            <td>Machine B3</td>
+            <td>Hydraulic Leak</td>
+            <td>Sara</td>
+            <td class="status unresolved">Unresolved</td>
+            <td>2025-04-06</td>
+            <td><a href="#" onclick="openModal()">View</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- API Test Form -->
+    <section class="table-section">
+      <h3>Test External API Submission</h3>
+      <form onsubmit="postWarning(event)">
+        <label>Machine ID: <input type="text" id="machine-id" required></label>
+        <label>Warning: <input type="text" id="warning-text" required></label>
+        <button type="submit">Send Warning</button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- Modal: Manager View -->
+  <div id="caseModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h3>Case #1035 - Fault Details</h3>
+      <p><strong>Machine:</strong> C3</p>
+      <p><strong>Status:</strong> In Progress</p>
+      <p><strong>Reported By:</strong> Technician Joe</p>
+      <h4>Timeline:</h4>
+      <ul>
+        <li>[2025-04-05] Joe: Belt worn.</li>
+        <li>[2025-04-06] Lina: Replacement ordered.</li>
+      </ul>
+      <p style="font-style: italic;">Managers can view only. Use admin panel for actions.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 1910–2025 ACME Manufacturing Corporation</p>
+  </footer>
+
+  <script>
+    function postWarning(e) {
+      e.preventDefault();
+      const id = document.getElementById("machine-id").value;
+      const warning = document.getElementById("warning-text").value;
+      alert(`Simulated POST: Machine ${id} - Warning: "${warning}"`);
+    }
+
+    function openModal() {
+      document.getElementById("caseModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("caseModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("caseModal");
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>
