@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>View-Only Dashboard</title>
-  <link rel="stylesheet" href="/myapp/static/myapp/viewonly_dashboard.css" />
-</head>
-<body>
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block title %}ACME Manufacturing Corp. - View Only Dashboard{% endblock %}
 
-  <nav class="navbar">
-    <h1>ACME View-Only Dashboard</h1>
-  </nav>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'myapp/viewonly_dashboard.css' %}">
+{% endblock %}
+
+{% block content %} <!-- This is the start of the content block -->
+
+<nav class="navbar">
+  <h1>ACME Manufacturing View-Only Panel</h1>
+</nav>
 
   <main class="container">
     <h2>Welcome, Observer!</h2>
@@ -75,3 +75,7 @@
         <li><strong>Case #1039:</strong> Machine B2 - Temperature Warning</li>
         <li><strong>Case #1037:</strong> Machine A5 - Sensor Malfunction (Resolved)</li>
       </ul
+    </section>
+  </main>
+
+{% endblock %}

@@ -1,154 +1,169 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Repair Dashboard</title>
-  <link rel="stylesheet" href="/myapp/static/myapp/repair_dashboard.css" />
-</head>
-<body>
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block title %}ACME Manufacturing Corp. - Repair Dashboard{% endblock %}
 
-  <nav class="navbar">
-    <h1>ACME Repair Personnel Dashboard</h1>
-  </nav>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'myapp/repair_dashboard.css' %}">
+{% endblock %}
 
-  <main class="container">
-    <h2>Welcome, Repair Team Member!</h2>
+{% block content %} <!-- This is the start of the content block -->
 
-    <!-- Summary Cards -->
-    <div class="status-cards">
-      <div class="card green"><h3>Assigned Machines</h3><p>3</p></div>
-      <div class="card red"><h3>Active Fault Cases</h3><p>2</p></div>
+<nav class="navbar">
+  <h1>ACME Manufacturing Repair Panel</h1>
+</nav>
+
+<main class="container">
+  <h2>Welcome, Repair Team Member!</h2>
+
+  <!-- Summary Cards -->
+  <div class="status-cards">
+    <div class="card green">
+      <h3>Assigned Machines</h3>
+      <p>3</p>
     </div>
-
-    <!-- Assigned Machines -->
-    <section class="table-section">
-      <h3>Your Assigned Machines</h3>
-      <table>
-        <thead>
-          <tr><th>Machine</th><th>Status</th><th>Location</th><th>Actions</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Machine B3</td>
-            <td><span class="status fault">Fault</span></td>
-            <td>Room-12</td>
-            <td><a href="#" onclick="openCaseModal()">View</a></td>
-          </tr>
-          <tr>
-            <td>Machine D1</td>
-            <td><span class="status warning">Warning</span></td>
-            <td>Building-C</td>
-            <td><a href="#" onclick="openCaseModal()">View</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- Fault Case Section -->
-    <section class="table-section">
-      <h3>Fault Cases You're Assigned To</h3>
-      <ul>
-        <li>
-          <strong>Case #1035:</strong> Broken belt on B3 —
-          <a href="#" onclick="openNoteModal()">Add Note</a> |
-          <a href="#" onclick="openNoteModal()">Upload Image</a> |
-          <a href="#" onclick="markResolved()">Mark Resolved</a> |
-          <a href="#" onclick="openCaseModal()">View</a>
-        </li>
-        <li>
-          <strong>Case #1032:</strong> Power issue on D1 —
-          <a href="#" onclick="openNoteModal()">Add Note</a> |
-          <a href="#" onclick="openNoteModal()">Upload Image</a> |
-          <a href="#" onclick="markResolved()">Mark Resolved</a> |
-          <a href="#" onclick="openCaseModal()">View</a>
-        </li>
-      </ul>
-    </section>
-
-    <!-- Remove Warnings -->
-    <section class="table-section">
-      <h3>Remove Active Warnings</h3>
-      <table>
-        <thead><tr><th>Machine</th><th>Warning</th><th>Action</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>Machine D1</td>
-            <td>Temperature Too High</td>
-            <td><button onclick="alert('Warning removed')">Remove</button></td>
-          </tr>
-          <tr>
-            <td>Machine D1</td>
-            <td>Low Oil Pressure</td>
-            <td><button onclick="alert('Warning removed')">Remove</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  </main>
-
-  <!-- Modal: View Case -->
-  <div id="caseModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('caseModal')">&times;</span>
-      <h3>Fault Case #1035 - Belt Issue</h3>
-      <p><strong>Machine:</strong> B3</p>
-      <p><strong>Status:</strong> Fault</p>
-      <h4>Case Timeline:</h4>
-      <ul>
-        <li>[2025-04-06] Technician: Detected belt tear</li>
-        <li>[2025-04-07] Repair: Scheduled replacement</li>
-      </ul>
+    <div class="card red">
+      <h3>Active Fault Cases</h3>
+      <p>2</p>
     </div>
   </div>
 
-  <!-- Modal: Add Note + Upload -->
-  <div id="noteModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal('noteModal')">&times;</span>
-      <h3>Add Note / Upload for Fault Case</h3>
-      <textarea id="repairNote" rows="4" placeholder="Repair actions, findings..."></textarea>
-      <input type="file" />
-      <button onclick="submitRepairNote()">Submit Update</button>
-    </div>
+  <!-- Assigned Machines -->
+  <section class="table-section">
+    <h3>Your Assigned Machines</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Status</th>
+          <th>Location</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Machine B3</td>
+          <td><span class="status fault">Fault</span></td>
+          <td>Room-12</td>
+          <td><a href="#" onclick="openCaseModal()">View</a></td>
+        </tr>
+        <tr>
+          <td>Machine D1</td>
+          <td><span class="status warning">Warning</span></td>
+          <td>Building-C</td>
+          <td><a href="#" onclick="openCaseModal()">View</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Fault Case Section -->
+  <section class="table-section">
+    <h3>Fault Cases You're Assigned To</h3>
+    <ul>
+      <li>
+        <strong>Case #1035:</strong> Broken belt on B3 —
+        <a href="#" onclick="openNoteModal()">Add Note</a> |
+        <a href="#" onclick="openNoteModal()">Upload Image</a> |
+        <a href="#" onclick="markResolved()">Mark Resolved</a> |
+        <a href="#" onclick="openCaseModal()">View</a>
+      </li>
+      <li>
+        <strong>Case #1032:</strong> Power issue on D1 —
+        <a href="#" onclick="openNoteModal()">Add Note</a> |
+        <a href="#" onclick="openNoteModal()">Upload Image</a> |
+        <a href="#" onclick="markResolved()">Mark Resolved</a> |
+        <a href="#" onclick="openCaseModal()">View</a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Remove Warnings -->
+  <section class="table-section">
+    <h3>Remove Active Warnings</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Warning</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Machine D1</td>
+          <td>Temperature Too High</td>
+          <td><button onclick="alert('Warning removed')">Remove</button></td>
+        </tr>
+        <tr>
+          <td>Machine D1</td>
+          <td>Low Oil Pressure</td>
+          <td><button onclick="alert('Warning removed')">Remove</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<!-- Modal: View Case -->
+<div id="caseModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('caseModal')">&times;</span>
+    <h3>Fault Case #1035 - Belt Issue</h3>
+    <p><strong>Machine:</strong> B3</p>
+    <p><strong>Status:</strong> Fault</p>
+    <h4>Case Timeline:</h4>
+    <ul>
+      <li>[2025-04-06] Technician: Detected belt tear</li>
+      <li>[2025-04-07] Repair: Scheduled replacement</li>
+    </ul>
   </div>
+</div>
 
-  <footer><p>© 2025 ACME Manufacturing Corporation</p></footer>
+<!-- Modal: Add Note + Upload -->
+<div id="noteModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('noteModal')">&times;</span>
+    <h3>Add Note / Upload for Fault Case</h3>
+    <textarea id="repairNote" rows="4" placeholder="Repair actions, findings..."></textarea>
+    <input type="file" />
+    <button onclick="submitRepairNote()">Submit Update</button>
+  </div>
+</div>
 
-  <script>
-    function openCaseModal() {
-      document.getElementById("caseModal").style.display = "block";
+<script>
+  function openCaseModal() {
+    document.getElementById("caseModal").style.display = "block";
+  }
+
+  function openNoteModal() {
+    document.getElementById("noteModal").style.display = "block";
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+  }
+
+  function submitRepairNote() {
+    const note = document.getElementById("repairNote").value;
+    if (note) {
+      alert("Note/Image submitted:\n" + note);
+      closeModal('noteModal');
+    } else {
+      alert("Please add a note.");
     }
+  }
 
-    function openNoteModal() {
-      document.getElementById("noteModal").style.display = "block";
-    }
+  function markResolved() {
+    alert("This fault has been marked as resolved!");
+  }
 
-    function closeModal(id) {
-      document.getElementById(id).style.display = "none";
-    }
+  window.onclick = function (event) {
+    ["noteModal", "caseModal"].forEach(id => {
+      const modal = document.getElementById(id);
+      if (event.target === modal) closeModal(id);
+    });
+  };
+</script>
 
-    function submitRepairNote() {
-      const note = document.getElementById("repairNote").value;
-      if (note) {
-        alert("Note/Image submitted:\n" + note);
-        closeModal('noteModal');
-      } else {
-        alert("Please add a note.");
-      }
-    }
 
-    function markResolved() {
-      alert("This fault has been marked as resolved!");
-    }
-
-    window.onclick = function(event) {
-      ["noteModal", "caseModal"].forEach(id => {
-        const modal = document.getElementById(id);
-        if (event.target === modal) closeModal(id);
-      });
-    };
-  </script>
-
-</body>
-</html>
+{% endblock %}
