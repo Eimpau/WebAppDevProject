@@ -11,6 +11,29 @@
         <li><a href="{% url 'myapp:machines' %}">Machine Description</a></li>
         <li><a href="{% url 'myapp:guide' %}">Guide</a></li>
         <li><a href="{% url 'myapp:about' %}">About Us</a></li>
-        <li><a href="{% url 'myapp:employee_login' %}">Login</a></li>
+        {% if user.is_authenticated %} <!-- Check if the user is authenticated -->
+            {% if user.is_superuser %} <!-- Admin user can see everything -->
+                <li><a href="{% url 'myapp:manager_dashboard' %}">Manager Dashboard</a></li>
+                <li><a href="{% url 'myapp:technician_dashboard' %}">Technician Dashboard</a></li>
+                <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
+                <li><a href="{% url 'myapp:viewonly_dashboard' %}">View Only Dashboard</a></li>
+            {% endif %}
+            {% if user.profile.role == 'Manager' %} <!-- manager can see their dashboard-->
+            <li><a href="{% url 'myapp:manager_dashboard' %}">Manager Dashboard</a></li>
+            {% endif %}
+            {% if user.profile.role == 'Technician' %} <!-- technician can see repair and technician dashboard -->
+                <li><a href="{% url 'myapp:technician_dashboard' %}">Technician Dashboard</a></li>
+                <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
+            {% endif %}
+            {% if user.profile.role == 'Repair' %} <!-- repair can see their dashboard-->
+                <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
+            {% endif %}
+            {% if user.profile.role == 'View' %} <!-- view can see their dashboard-->
+                <li><a href="{% url 'myapp:viewonly_dashboard' %}">View Only Dashboard</a></li>
+            {% endif %}
+            <li><a href="{% url 'myapp:employee_logout' %}">Logout</a></li> <!-- only visible if logged in-->
+        {% else %}
+            <li><a href="{% url 'myapp:employee_login' %}">Login</a></li> <!-- only visible if not logged in-->
+        {% endif %}
     </ul>
 </nav>

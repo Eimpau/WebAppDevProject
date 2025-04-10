@@ -1,0 +1,155 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block title %}ACME Manufacturing Corp. - Technician Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'myapp/manager_dashboard.css' %}">
+{% endblock %}
+
+{% block content %} <!-- This is the start of the content block -->
+
+<nav class="navbar">
+  <h1>ACME Manufacturing Technician Panel</h1>
+</nav>
+
+<main class="container">
+
+  <!-- Summary Cards -->
+  <div class="status-cards">
+    <div class="card green">
+      <h3>Assigned Machines</h3>
+      <p>4</p>
+    </div>
+    <div class="card red">
+      <h3>Open Fault Cases</h3>
+      <p>3</p>
+    </div>
+  </div>
+
+  <!-- Assigned Machines -->
+  <section class="table-section">
+    <h3>Your Assigned Machines</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Status</th>
+          <th>Location</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Machine A1</td>
+          <td><span class="status warning">Warning</span></td>
+          <td>Building-A</td>
+          <td><a href="#" onclick="openCaseModal()">View</a></td>
+        </tr>
+        <tr>
+          <td>Machine C4</td>
+          <td><span class="status ok">OK</span></td>
+          <td>MainCampus</td>
+          <td><a href="#" onclick="openCaseModal()">View</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Fault Cases -->
+  <section class="table-section">
+    <h3>Open Fault Cases</h3>
+    <ul>
+      <li>
+        <strong>Case #1034:</strong> High vibration on A1 —
+        <a href="#" onclick="openNoteModal()">Add Note</a> |
+        <a href="#" onclick="openCaseModal()">View</a>
+      </li>
+      <li>
+        <strong>Case #1030:</strong> Oil Leak on D2 —
+        <a href="#" onclick="openNoteModal()">Add Note</a> |
+        <a href="#" onclick="openCaseModal()">View</a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- New Fault Form -->
+  <section class="table-section">
+    <h3>Report New Fault</h3>
+    <form onsubmit="event.preventDefault(); alert('Fault submitted!');">
+      <label>Select Machine:
+        <select required>
+          <option value="">-- Select --</option>
+          <option>Machine A1</option>
+          <option>Machine C4</option>
+        </select>
+      </label>
+      <label>Issue Description:
+        <textarea rows="3" placeholder="Describe the fault..." required></textarea>
+      </label>
+      <label>Upload Image:
+        <input type="file" />
+      </label>
+      <button type="submit">Submit Fault</button>
+    </form>
+  </section>
+</main>
+
+<!-- Case View Modal -->
+<div id="caseModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('caseModal')">&times;</span>
+    <h3>Fault Case #1034</h3>
+    <p><strong>Machine:</strong> A1</p>
+    <p><strong>Status:</strong> Warning</p>
+    <p><strong>Reported By:</strong> You</p>
+    <h4>Timeline:</h4>
+    <ul>
+      <li>[2025-04-08] You: Found abnormal vibration at high speed.</li>
+      <li>[2025-04-09] Repair: Scheduled for inspection.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Add Note Modal -->
+<div id="noteModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('noteModal')">&times;</span>
+    <h3>Add Note to Case</h3>
+    <textarea id="note" rows="4" placeholder="Describe what you found or did..."></textarea>
+    <button onclick="submitNote()">Submit Note</button>
+  </div>
+</div>
+
+<script>
+  function openCaseModal() {
+    document.getElementById("caseModal").style.display = "block";
+  }
+
+  function openNoteModal() {
+    document.getElementById("noteModal").style.display = "block";
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+  }
+
+  function submitNote() {
+    const note = document.getElementById("note").value;
+    if (note) {
+      alert("Note submitted: " + note);
+      closeModal('noteModal');
+    } else {
+      alert("Please enter a note first.");
+    }
+  }
+
+  window.onclick = function (event) {
+    const modals = ["caseModal", "noteModal"];
+    modals.forEach(id => {
+      const modal = document.getElementById(id);
+      if (event.target === modal) modal.style.display = "none";
+    });
+  };
+</script>
+
+{% endblock %}
