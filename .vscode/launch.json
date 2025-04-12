@@ -20,7 +20,8 @@
             "type": "debugpy",
             "request": "launch",
             "args": [
-                "makemigrations"
+                "makemigrations",
+                "myapp"
             ],
             "program": "${workspaceFolder}/manage.py"
         },

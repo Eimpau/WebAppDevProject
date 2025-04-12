@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  .navbar {
+    background-color: #001f3f;
+    color: white;
+    padding: 1rem 2rem;
+  }
+  
+  .container {
+    padding: 2rem;
+  }
+  
+  .status-cards {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .card {
+    flex: 1;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    color: white;
+    text-align: center;
+  }
+  
+  .card.green {
+    background-color: #2ecc71;
+  }
+  
+  .card.yellow {
+    background-color: #f1c40f;
+  }
+  
+  .card.red {
+    background-color: #e74c3c;
+  }
+  
+  .table-section {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-top: 2rem;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  th, td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .status.ok {
+    color: #2ecc71;
+    font-weight: bold;
+  }
+  
+  .status.warning {
+    color: #f1c40f;
+    font-weight: bold;
+  }
+  
+  .status.fault {
+    color: #e74c3c;
+    font-weight: bold;
+  }
+  
+  footer {
+    margin-top: 4rem;
+    padding: 1rem;
+    background-color: #eee;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
