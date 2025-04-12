@@ -1,5 +1,5 @@
 {% extends 'myapp/base.html' %}
-{% load static %}
+{% load static %} <!-- Loads the static template tag to access static files like CSS, JS, images -->
 {% block title %}User Guide - ACME Manufacturing{% endblock %}
 
 {% block extra_css %}
@@ -8,6 +8,7 @@
 
 {% block content %} <!-- This is the start of the content block -->
 
+<!-- This file gives the user a guide for accessing the website and using the pages -->
 <header class="guide-header">
   <h1>User Guide</h1>
   <p>This guide will help users and maintenance personnel operate and maintain ACME's machinery safely and efficiently.

@@ -1,0 +1,81 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block title %}ACME Manufacturing Corp. - View Only Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'myapp/viewonly_dashboard.css' %}">
+{% endblock %}
+
+{% block content %} <!-- This is the start of the content block -->
+
+<nav class="navbar">
+  <h1>ACME Manufacturing View-Only Panel</h1>
+</nav>
+
+  <main class="container">
+    <h2>Welcome, Observer!</h2>
+    <p>You have view-only access to machine and fault status information.</p>
+
+    <!-- Machine Summary -->
+    <div class="status-cards">
+      <div class="card green">
+        <h3>OK Machines</h3>
+        <p>20</p>
+      </div>
+      <div class="card yellow">
+        <h3>Warnings</h3>
+        <p>4</p>
+      </div>
+      <div class="card red">
+        <h3>Faults</h3>
+        <p>2</p>
+      </div>
+    </div>
+
+    <!-- Machine List -->
+    <section class="table-section">
+      <h3>All Machines</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Machine</th>
+            <th>Status</th>
+            <th>Location</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Machine A1</td>
+            <td><span class="status ok">OK</span></td>
+            <td>Building-A</td>
+            <td><a href="#">View</a></td>
+          </tr>
+          <tr>
+            <td>Machine B2</td>
+            <td><span class="status warning">Warning</span></td>
+            <td>MainCampus</td>
+            <td><a href="#">View</a></td>
+          </tr>
+          <tr>
+            <td>Machine C3</td>
+            <td><span class="status fault">Fault</span></td>
+            <td>Floor 2</td>
+            <td><a href="#">View</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Recent Faults -->
+    <section class="table-section">
+      <h3>Recent Fault Cases</h3>
+      <ul>
+        <li><strong>Case #1040:</strong> Machine C3 - Belt Slipping</li>
+        <li><strong>Case #1039:</strong> Machine B2 - Temperature Warning</li>
+        <li><strong>Case #1037:</strong> Machine A5 - Sensor Malfunction (Resolved)</li>
+      </ul
+    </section>
+  </main>
+
+{% endblock %}

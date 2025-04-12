@@ -1,27 +1,32 @@
-{% load static %}
+{% load static %} <!-- Loads the static template tag to access static files like CSS, JS, images -->
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>  <!-- Title block that can be overridden in child templates -->
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+     <!-- Link to static CSS files -->
     <link rel="stylesheet" href="{% static 'myapp/main_styles.css' %}">
     <link rel="stylesheet" href="{% static 'myapp/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'myapp/base.css' %}">
 
+    <!-- Block for additional CSS that can be added in child templates -->
     {% block extra_css %}{% endblock %}
 </head>
 
 <body>
 
+    <!-- Includes the navbar template from the 'myapp' app -->
     {% include "myapp/navbar.html" %}
 
+    <!-- Content block to be filled in by child templates -->
     {% block content %}(no content){% endblock %}
 
+    <!-- Footer section -->
     <footer>
         <p>© Copyright 1910-2025 by Acme Manufacturing Corporation.</p>
     </footer>

@@ -1,0 +1,169 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block title %}ACME Manufacturing Corp. - Repair Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'myapp/repair_dashboard.css' %}">
+{% endblock %}
+
+{% block content %} <!-- This is the start of the content block -->
+
+<nav class="navbar">
+  <h1>ACME Manufacturing Repair Panel</h1>
+</nav>
+
+<main class="container">
+  <h2>Welcome, Repair Team Member!</h2>
+
+  <!-- Summary Cards -->
+  <div class="status-cards">
+    <div class="card green">
+      <h3>Assigned Machines</h3>
+      <p>3</p>
+    </div>
+    <div class="card red">
+      <h3>Active Fault Cases</h3>
+      <p>2</p>
+    </div>
+  </div>
+
+  <!-- Assigned Machines -->
+  <section class="table-section">
+    <h3>Your Assigned Machines</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Status</th>
+          <th>Location</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Machine B3</td>
+          <td><span class="status fault">Fault</span></td>
+          <td>Room-12</td>
+          <td><a href="#" onclick="openCaseModal()">View</a></td> <!-- Link to view fault case details -->
+        </tr>
+        <tr>
+          <td>Machine D1</td>
+          <td><span class="status warning">Warning</span></td>
+          <td>Building-C</td>
+          <td><a href="#" onclick="openCaseModal()">View</a></td> <!-- Link to view fault case details -->
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Fault Case Section -->
+  <section class="table-section">
+    <h3>Fault Cases You're Assigned To</h3>
+    <ul>
+      <li>
+        <strong>Case #1035:</strong> Broken belt on B3 —
+        <a href="#" onclick="openNoteModal()">Add Note</a> | <!-- Link to add note -->
+        <a href="#" onclick="openNoteModal()">Upload Image</a> | <!-- Link to upload image -->
+        <a href="#" onclick="markResolved()">Mark Resolved</a> | <!-- Link to mark case as resolved -->
+        <a href="#" onclick="openCaseModal()">View</a> <!-- Link to view fault case details -->
+      </li>
+      <li>
+        <strong>Case #1032:</strong> Power issue on D1 —
+        <a href="#" onclick="openNoteModal()">Add Note</a> | <!-- Link to add note -->
+        <a href="#" onclick="openNoteModal()">Upload Image</a> | <!-- Link to upload image -->
+        <a href="#" onclick="markResolved()">Mark Resolved</a> | <!-- Link to mark case as resolved -->
+        <a href="#" onclick="openCaseModal()">View</a> <!-- Link to view fault case details -->
+      </li>
+    </ul>
+  </section>
+
+  <!-- Remove Warnings -->
+  <section class="table-section">
+    <h3>Remove Active Warnings</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Warning</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Machine D1</td>
+          <td>Temperature Too High</td>
+          <td><button onclick="alert('Warning removed')">Remove</button></td> <!-- Button to remove warning -->
+        </tr>
+        <tr>
+          <td>Machine D1</td>
+          <td>Low Oil Pressure</td>
+          <td><button onclick="alert('Warning removed')">Remove</button></td> <!-- Button to remove warning -->
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<!-- Modal: View Case -->
+<div id="caseModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('caseModal')">&times;</span> <!-- Close button to hide the modal -->
+    <h3>Fault Case #1035 - Belt Issue</h3>
+    <p><strong>Machine:</strong> B3</p>
+    <p><strong>Status:</strong> Fault</p>
+    <h4>Case Timeline:</h4>
+    <ul>
+      <li>[2025-04-06] Technician: Detected belt tear</li>
+      <li>[2025-04-07] Repair: Scheduled replacement</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Modal: Add Note + Upload -->
+<div id="noteModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('noteModal')">&times;</span> <!-- Close button to hide the modal -->
+    <h3>Add Note / Upload for Fault Case</h3>
+    <textarea id="repairNote" rows="4" placeholder="Repair actions, findings..."></textarea>
+    <input type="file" />
+    <button onclick="submitRepairNote()">Submit Update</button> <!-- Button to submit the note/image -->
+  </div>
+</div>
+
+<script>
+  function openCaseModal() { // Function to open the case modal
+    document.getElementById("caseModal").style.display = "block"; 
+  }
+
+  function openNoteModal() { // Function to open the note modal
+    document.getElementById("noteModal").style.display = "block";
+  }
+
+  function closeModal(id) { // Function to close the modal
+    document.getElementById(id).style.display = "none";
+  }
+
+  function submitRepairNote() { // Function to handle the submission of the repair note/image
+    const note = document.getElementById("repairNote").value; // Get the note from the textarea
+    if (note) { // Check if the note is not empty
+      alert("Note/Image submitted:\n" + note); // Show an alert with the note
+      closeModal('noteModal'); // Close the modal after submission
+    } else {
+      alert("Please add a note."); // Alert if the note is empty
+    }
+  }
+
+  function markResolved() { // Function to mark the fault case as resolved
+    alert("This fault has been marked as resolved!");
+  }
+
+  window.onclick = function (event) { // Function to close the modal when clicking outside of it
+    ["noteModal", "caseModal"].forEach(id => {
+      const modal = document.getElementById(id);  // Get the modal element by ID
+      if (event.target === modal) closeModal(id);  // Check if the clicked element is the modal itself
+    });
+  };
+</script>
+
+
+{% endblock %}

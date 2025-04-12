@@ -1,5 +1,5 @@
 {% extends 'myapp/base.html' %}
-{% load static %}
+{% load static %} <!-- Loads the static template tag to access static files like CSS, JS, images -->
 {% block title %}ACME Products - ACME Manufacturing{% endblock %}
 
 {% block extra_css %}
@@ -13,12 +13,14 @@
   <p>Explore ACME’s specialized tools and solutions designed for advanced manufacturing needs.</p>
 </header>
 
-<main class="products-list">
-  <section class="product-card">
-    <img src="{% static 'images/buffing_machine.jpg' %}" alt="Buffing Machine">
+<main class="products-list"> <!-- Main section for all products -->
+  <section class="product-card"> <!-- Each product is in its own sectio using css -->
+    <img src="{% static 'images/buffing_machine.jpg' %}" alt="Buffing Machine"> <!-- Image for Buffing Machine -->
     <h2>Buffing Machine</h2>
     <p>Delivers smooth, uniform surface finishes using automated polishing techniques. Ideal for high-volume production lines.</p>
   </section>
+
+  <!-- Rest of code is the same as above, using css and images file to load in images and ensures correct layout-->
 
   <section class="product-card">
     <img src="{% static 'images/deburring_machine.jpg' %}" alt="Deburring Machine">

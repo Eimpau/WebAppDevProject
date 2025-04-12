@@ -1,5 +1,5 @@
 {% extends 'myapp/base.html' %}
-{% load static %}
+{% load static %} <!-- Loads the static template tag to access static files like CSS, JS, images -->
 {% block title %}Home{% endblock %}
 
 {% block extra_css %}
@@ -17,10 +17,10 @@
 <section class="machine-section buffing machine">
     <div class="machine-media">
         <div class="machine-image">
-            <img src="{% static 'images/buffing_machine.jpg' %}" alt="Buffing Machine">
+            <img src="{% static 'images/buffing_machine.jpg' %}" alt="Buffing Machine"> <!-- Loading from images -->
         </div>
 
-        <div class="machine-video">
+        <div class="machine-video"> <!-- Loading from YouTube -->
             <iframe width="560" height="500" src="https://www.youtube.com/embed/9mXO_Tnok98"
                 title="10 Robotic Buffing Applications In a Minute!" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -38,19 +38,21 @@
     </div>
 </section>
 
+<!-- Section for displaying deburring machine -->
 <section class="machine-section deburring machine">
-    <div class="machine-media">
-        <div class="machine-image">
-            <img src="{% static 'images/deburring_machine.jpg' %}" alt="Deburring Machine">
+    <div class="machine-media"> <!-- Container for image and video -->
+        <div class="machine-image"> <!-- Image for deburring machine -->
+            <img src="{% static 'images/deburring_machine.jpg' %}" alt="Deburring Machine"> <!-- Loads the image -->
         </div>
 
+        <!-- Embedded video section showing the machine -->
         <div class="machine-video">
             <iframe width="560" height="500" src="https://www.youtube.com/embed/q0K6b49eZcs"
                 title="2014 Acme Robotic Deburring Machine, Model Number M22857 | GE Aviation Auburn, AL - Lot 4"
-                frameborder="0"
+                frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
+        </div> <!-- 'allow' lets the iframe use certain features as shown -->
     </div>
 
     <div class="machine-description">
@@ -63,12 +65,14 @@
     </div>
 </section>
 
+<!-- Section for displaying gridding machine -->
 <section class="machine-section gridding-machine">
-    <div class="machine-media">
-        <div class="machine-image">
-            <img src="{% static 'images/gridding_machine.jpg' %}" alt="Gridding Machine">
+    <div class="machine-media"> <!-- Container for image and video -->
+        <div class="machine-image">  
+            <img src="{% static 'images/gridding_machine.jpg' %}" alt="Gridding Machine"> <!-- Image for deburring machine -->
         </div>
 
+        <!-- Embedded video section showing the machine -->
         <div class="machine-video">
             <iframe width="560" height="500" src="https://www.youtube.com/embed/DRbdmhqCUw8"
                 title="Automated Robotic Weld Grinding System in Action" frameborder="0"
@@ -87,6 +91,7 @@
     </div>
 </section>
 
+<!-- Rest of code is the same layout as above machines -->
 <section class="machine-section laser-cutter">
     <div class="machine-media">
         <div class="machine-image">

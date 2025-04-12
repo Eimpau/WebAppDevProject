@@ -4,25 +4,28 @@ import re
 
 # Extend the UserProfile with a role field (technician, repair, manager, viewer)
 class UserProfile(models.Model):
+    # Predefined role choices for different types of users
     ROLE_CHOICES = (
         ('technician', 'Technician'),
         ('repair', 'Repair'),
         ('manager', 'Manager'),
         ('viewer', 'View-only'),
     )
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='technician')
+    user = models.OneToOneField(User, on_delete=models.CASCADE) # One-to-one relationship with the User model
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='technician') # Role field with limited choices
 
     def __str__(self):
-        return f"{self.user.username} ({self.get_role_display()})"
+        return f"{self.user.username} ({self.get_role_display()})" # Human-readable representation, showing username and role
 
-
+# Machine model
 class Machine(models.Model):
+    # Machine status choices 
     STATUS_CHOICES = (
         ('OK', 'OK'),
         ('Warning', 'Warning'),
         ('Fault', 'Fault'),
     )
+     # Machine basic information
     name = models.CharField(max_length=100)
     description = models.TextField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='OK')
@@ -38,8 +41,9 @@ class Machine(models.Model):
     def __str__(self):
         return self.name
 
-
+# Fault case model
 class FaultCase(models.Model):
+    # Fault status choices
     FAULT_STATUS_CHOICES = (
         ('open', 'Open'),
         ('in_progress', 'In Progress'),
@@ -56,7 +60,7 @@ class FaultCase(models.Model):
     def __str__(self):
         return f"Fault #{self.pk} - {self.machine.name} ({self.get_status_display()})"
 
-
+# Fault note model
 class FaultNote(models.Model):
     # Links each note to a FaultCase; allows multiple notes per case
     fault_case = models.ForeignKey(FaultCase, on_delete=models.CASCADE, related_name="notes")
@@ -68,7 +72,7 @@ class FaultNote(models.Model):
     def __str__(self):
         return f"Note for Fault #{self.fault_case.pk} by {self.created_by}"
 
-
+# Warning model
 class Warning(models.Model):
     # Each warning is linked to a Machine
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE, related_name="warnings")
