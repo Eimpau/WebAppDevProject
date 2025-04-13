@@ -24,25 +24,33 @@
         
         {% comment %} Conditional display based on user authentication {% endcomment %}
         {% if user.is_authenticated %}
-            {% comment %} Check user role to determine which dashboards to display {% endcomment %}
-            {% if user.userprofile.role == "Manager" %}
+            {% if user.is_superuser %}
+                {% comment %} Superusers see all dashboards {% endcomment %}
                 <li><a href="{% url 'myapp:manager_dashboard' %}">Manager Dashboard</a></li>
                 <li><a href="{% url 'myapp:technician_dashboard' %}">Technician Dashboard</a></li>
                 <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
                 <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
-            {% elif user.userprofile.role == "Technician" %}
-                <li><a href="{% url 'myapp:technician_dashboard' %}">Technician Dashboard</a></li>
-                <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
-                <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
-            {% elif user.userprofile.role == "Repair" %}
-                <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
-                <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
-            {% elif user.userprofile.role == "View-only" %}
-                <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
+            {% else %}
+                {% comment %} Check user role to determine which dashboards to display {% endcomment %}
+                {% if user.userprofile.role == "Manager" %}
+                    <li><a href="{% url 'myapp:manager_dashboard' %}">Manager Dashboard</a></li>
+                    <li><a href="{% url 'myapp:technician_dashboard' %}">Technician Dashboard</a></li>
+                    <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
+                    <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
+                {% elif user.userprofile.role == "Technician" %}
+                    <li><a href="{% url 'myapp:technician_dashboard' %}">Technician Dashboard</a></li>
+                    <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
+                    <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
+                {% elif user.userprofile.role == "Repair" %}
+                    <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
+                    <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
+                {% elif user.userprofile.role == "View-only" %}
+                    <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
+                {% endif %}
             {% endif %}
             {% comment %} Logout option for authenticated users {% endcomment %}
             <li><a href="{% url 'myapp:employee_logout' %}">Logout</a></li>
-        {% else %}
+            {% else %}
             <li><a href="{% url 'myapp:employee_login' %}">Login</a></li>
         {% endif %}
     </ul>

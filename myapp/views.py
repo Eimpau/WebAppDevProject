@@ -118,14 +118,16 @@ def employee_logout(request):
 def manager_dashboard(request):
     """
     Renders the Manager Dashboard.
-    This view is accessible only by Manager users. It provides functionalities such as:
+    This view is accessible by Manager users as well as any superuser.
+    It provides functionalities such as:
       - Creating new users via the ManagerUserRegistrationForm.
       - Viewing summary statistics for machine statuses.
       - Filtering machines by collections.
       - Ordering machines based on priority (Fault > Warning > OK).
       - Managing assignments (Technicians and Repair personnel).
     """
-    if request.user.userprofile.role != "Manager":
+    # Allow superusers to bypass role restrictions.
+    if not request.user.is_superuser and request.user.userprofile.role != "Manager":
         return HttpResponseForbidden("You are not authorized to view the Manager Dashboard.")
     
     if request.method == "POST":
@@ -150,14 +152,12 @@ def manager_dashboard(request):
     recent_fault_cases = FaultCase.objects.order_by("-created_at")[:5]
     collections = Collection.objects.all()
 
-    # Filter machines based on a collection filter if provided.
     collection_filter = request.GET.get("collection_filter")
     if collection_filter:
         machines = Machine.objects.filter(collections__pk=collection_filter).distinct()
     else:
         machines = Machine.objects.all()
 
-    # Annotate and order machines by a priority (Fault > Warning > OK).
     machines = machines.annotate(
         priority=Case(
             When(status="Fault", then=Value(1)),
@@ -168,10 +168,8 @@ def manager_dashboard(request):
         )
     ).order_by("priority", "created_at")
 
-    # Retrieve personnel for assignments.
     technicians = User.objects.filter(userprofile__role="Technician")
     repair_personnel = User.objects.filter(userprofile__role="Repair")
-    # Exclude superusers and current manager from the users list.
     users = User.objects.filter(is_superuser=False).exclude(pk=request.user.pk).order_by("username")
 
     context = {
@@ -193,13 +191,14 @@ def manager_dashboard(request):
 def technician_dashboard(request):
     """
     Renders the Technician Dashboard.
-    Accessible by users with roles Manager or Technician. It provides functionalities such as:
+    This view is accessible by Manager or Technician users as well as superusers.
+    It provides functionalities such as:
       - Orders machines based on a defined priority.
       - Displays machines assigned to the technician.
       - Shows all machines for broader context.
       - Lists open fault cases relevant to the technician.
     """
-    if request.user.userprofile.role not in ["Manager", "Technician"]:
+    if not request.user.is_superuser and request.user.userprofile.role not in ["Manager", "Technician"]:
         return HttpResponseForbidden("You are not authorized to view the Technician Dashboard.")
 
     priority_annotation = Case(
@@ -233,14 +232,15 @@ def technician_dashboard(request):
 def repair_dashboard(request):
     """
     Renders the Repair Dashboard.
-    This view is for Manager, Technician, and Repair roles. It provides functionalities such as:
+    This view is accessible by Manager, Technician, and Repair users as well as superusers.
+    It provides functionalities such as:
       - Orders machines based on a defined priority.
       - Displays machines assigned to the Repair.
       - Shows all machines for broader context.
       - A list of repair cases that are open.
       - Active warnings on machines.
     """
-    if request.user.userprofile.role not in ["Manager", "Technician", "Repair"]:
+    if not request.user.is_superuser and request.user.userprofile.role not in ["Manager", "Technician", "Repair"]:
         return HttpResponseForbidden("You are not authorized to view the Repair Dashboard.")
     
     priority_annotation = Case(
