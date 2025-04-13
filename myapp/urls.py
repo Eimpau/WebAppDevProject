@@ -43,8 +43,12 @@ urlpatterns = [
     # Delete User route: Enables a manager to delete a user account; identified by user ID.
     path("delete_user/<int:user_id>/", views.delete_user, name="delete_user"),
 
-    # REST API
+    # API
+
+    # HTTP POST API
     path('api/machine/faultUpdate', MachineView.as_view()),
+    
+    # REST API for machine status
     path('api/machine/', MachineView.as_view()),
     path('api/machine/<int:pk>/', MachineView.as_view()),
 ]

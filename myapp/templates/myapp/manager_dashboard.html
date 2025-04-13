@@ -261,17 +261,6 @@
     </table>
   </section>
 
-  {% comment %} Section: REST API, provides a way for testing external API submission to record a warning and fault cases {% endcomment %}
-  {% comment %} !!!!!!!!!!!!! Needs to be implemented !!!!!!!!!!!!!!! {% endcomment %}
-  <section class="table-section">
-    <h3>Test External API Submission</h3>
-    <form onsubmit="postWarning(event)">
-      <label>Machine ID: <input type="text" id="machine-id" required /></label>
-      <label>Warning: <input type="text" id="warning-text" required /></label>
-      <button type="submit">Send Warning</button>
-    </form>
-  </section>
-
   {% comment %} Section: Create Users, provides a way for managers to create new user accounts {% endcomment %}
   <section class="table-section">
     <h3>Create Users</h3>
@@ -339,20 +328,11 @@ Their content is dynamically populated via JavaScript. {% endcomment %}
 </div>
 
 {% comment %} JavaScript Functions:
-  - postWarning: Handle external API simulation for sending warnings and faults. !!! Needs to be implemented !!!
   - filterByCollection: Redirects to the same page with a collection filter applied.
   - openFaultModal: Populates and displays the fault details modal.
   - closeModal / closeFaultModal: Hide modals when finished.
   - window.onclick: Closes modals if the user clicks outside of them.  {% endcomment %}
 <script>
-  {% comment %} !!!!!!!!!!!!!!! Need to implement REST API call to send warning and fault cases to external system. !!!!!!!!!!!!!!!!!!!!{% endcomment %}
-  function postWarning(e) {
-    e.preventDefault();
-    const id = document.getElementById("machine-id").value;
-    const warning = document.getElementById("warning-text").value;
-    alert(`Simulated POST: Machine ${id} - Warning: "${warning}"`);
-  }
-
   function filterByCollection() {
     const selected = document.getElementById("collection_filter").value;
     const baseUrl = window.location.origin + window.location.pathname;
