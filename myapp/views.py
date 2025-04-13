@@ -8,7 +8,7 @@ dashboard rendering (Manager, Technician, Repair, View-only), and functionality 
 managing machines, fault cases, warnings, and user assignments.
 """
 
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -22,6 +22,43 @@ from .forms import LoginForm, ManagerUserRegistrationForm
 #####################
 # Public Page Views #
 #####################
+
+def record_warning_fault(request):
+    """
+    This view handles POST requests to record warnings or faults via external systems.
+    Receives data and records a new warning or fault in the system.
+    """
+    if request.method == "POST":
+        machine_id = request.POST.get("machine_id")
+        warning_text = request.POST.get("warning_text")
+        fault_description = request.POST.get("fault_description")
+
+        # Retrieve the machine object
+        machine = get_object_or_404(Machine, pk=machine_id)
+
+        # Create warning or fault based on data
+        if warning_text:
+            Warning.objects.create(
+                machine=machine,
+                warning_text=warning_text,
+                created_by=request.user,
+                active=True
+            )
+            machine.status = "Warning"
+        elif fault_description:
+            FaultCase.objects.create(
+                machine=machine,
+                reported_by=request.user,
+                status="open",
+                title=fault_description
+            )
+            machine.status = "Fault"
+
+        machine.save()
+        return JsonResponse({"message": "Warning/Fault recorded successfully."}, status=201)
+    
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
 def home(request):
     """
     Render the 'Index' that is the landing page for the application.

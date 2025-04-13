@@ -1,10 +1,3 @@
-"""
-urls.py
-
-This module defines the URL configuration for the Factory Machinery Status & Repair Tracking System.
-It maps URL patterns to view functions, enabling navigation between the application's pages.
-"""
-
 from django.urls import path
 from . import views
 
@@ -40,4 +33,7 @@ urlpatterns = [
     path("export_report/", views.export_report, name="export_report"),
     # Delete User route: Enables a manager to delete a user account; identified by user ID.
     path("delete_user/<int:user_id>/", views.delete_user, name="delete_user"),
+
+    # New API endpoint for recording warnings and faults (POST requests)
+    path("api/record_warning_fault/", views.record_warning_fault, name="record_warning_fault"),
 ]
