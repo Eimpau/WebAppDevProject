@@ -16,6 +16,10 @@ from django.contrib.auth.models import User
 from django.db.models import Q, Case, When, Value, IntegerField
 import csv
 
+from rest_framework import viewsets
+
+from .serializers import MachineSerializer
+
 from .models import UserProfile, Machine, FaultCase, FaultNote, Warning, Collection
 from .forms import LoginForm, ManagerUserRegistrationForm
 
@@ -45,6 +49,7 @@ def guide(request):
     context = {}
     return render(request, "myapp/guide.html", context)
 
+
 def machines(request):
     """
     Render the 'Machines' page that lists all machines in the system.
@@ -52,12 +57,14 @@ def machines(request):
     context = {}
     return render(request, "myapp/machines.html", context)
 
+
 def products(request):
     """
     Render the 'Products' page that showcases the products or services offered.
     """
     context = {}
     return render(request, "myapp/products.html", context)
+
 
 
 ########################
@@ -567,3 +574,15 @@ def delete_user(request, user_id):
         user_to_delete.delete()
         return redirect("myapp:manager_dashboard")
     return HttpResponseForbidden("Only POST requests are allowed.")
+
+#############################################
+#           REST API Views                  #
+#############################################
+
+class MachineView(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows machines to be viewed
+    This is specifically for the REST API to get machine status
+    """
+    queryset = Machine.objects.all()
+    serializer_class = MachineSerializer
