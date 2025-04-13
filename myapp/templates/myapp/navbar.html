@@ -1,3 +1,12 @@
+{% comment %} 
+  navbar.html
+
+  This template builds the navigation bar for the ACME Manufacturing web application.
+  It makes use of Django's template language to load static assets and dynamically display
+  menu items based on the user's login state and assigned role.
+
+{% endcomment %}
+
 {% load static %}
 
 {% block extra_css %}
@@ -6,34 +15,35 @@
 
 <nav>
     <ul>
+        {% comment %} Always visible links regardless of user authentication {% endcomment %}
         <li><a href="{% url 'myapp:home' %}">Home</a></li>
-        <li><a href="{% url 'myapp:products' %}">Products</a></li>
-        <li><a href="{% url 'myapp:machines' %}">Machine Description</a></li>
+        <li><a href="{% url 'myapp:about' %}">About</a></li>
         <li><a href="{% url 'myapp:guide' %}">Guide</a></li>
-        <li><a href="{% url 'myapp:about' %}">About Us</a></li>
-        {% if user.is_authenticated %} <!-- Check if the user is authenticated -->
-            {% if user.is_superuser %} <!-- Admin user can see everything -->
+        <li><a href="{% url 'myapp:products' %}">Products</a></li>
+        <li><a href="{% url 'myapp:machines' %}">Machines</a></li>
+        
+        {% comment %} Conditional display based on user authentication {% endcomment %}
+        {% if user.is_authenticated %}
+            {% comment %} Check user role to determine which dashboards to display {% endcomment %}
+            {% if user.userprofile.role == "Manager" %}
                 <li><a href="{% url 'myapp:manager_dashboard' %}">Manager Dashboard</a></li>
                 <li><a href="{% url 'myapp:technician_dashboard' %}">Technician Dashboard</a></li>
                 <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
-                <li><a href="{% url 'myapp:viewonly_dashboard' %}">View Only Dashboard</a></li>
-            {% endif %}
-            {% if user.profile.role == 'Manager' %} <!-- manager can see their dashboard-->
-            <li><a href="{% url 'myapp:manager_dashboard' %}">Manager Dashboard</a></li>
-            {% endif %}
-            {% if user.profile.role == 'Technician' %} <!-- technician can see repair and technician dashboard -->
+                <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
+            {% elif user.userprofile.role == "Technician" %}
                 <li><a href="{% url 'myapp:technician_dashboard' %}">Technician Dashboard</a></li>
                 <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
-            {% endif %}
-            {% if user.profile.role == 'Repair' %} <!-- repair can see their dashboard-->
+                <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
+            {% elif user.userprofile.role == "Repair" %}
                 <li><a href="{% url 'myapp:repair_dashboard' %}">Repair Dashboard</a></li>
+                <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
+            {% elif user.userprofile.role == "View-only" %}
+                <li><a href="{% url 'myapp:viewonly_dashboard' %}">View-only Dashboard</a></li>
             {% endif %}
-            {% if user.profile.role == 'View' %} <!-- view can see their dashboard-->
-                <li><a href="{% url 'myapp:viewonly_dashboard' %}">View Only Dashboard</a></li>
-            {% endif %}
-            <li><a href="{% url 'myapp:employee_logout' %}">Logout</a></li> <!-- only visible if logged in-->
+            {% comment %} Logout option for authenticated users {% endcomment %}
+            <li><a href="{% url 'myapp:employee_logout' %}">Logout</a></li>
         {% else %}
-            <li><a href="{% url 'myapp:employee_login' %}">Login</a></li> <!-- only visible if not logged in-->
+            <li><a href="{% url 'myapp:employee_login' %}">Login</a></li>
         {% endif %}
     </ul>
 </nav>
