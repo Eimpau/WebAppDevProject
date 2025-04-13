@@ -16,9 +16,12 @@ from django.contrib.auth.models import User
 from django.db.models import Q, Case, When, Value, IntegerField
 import csv
 
-from rest_framework import viewsets
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .serializers import MachineSerializer
+
+from .serializers import MachineWarningSerializer, MachineStatusSerializer
 
 from .models import UserProfile, Machine, FaultCase, FaultNote, Warning, Collection
 from .forms import LoginForm, ManagerUserRegistrationForm
@@ -579,10 +582,48 @@ def delete_user(request, user_id):
 #           REST API Views                  #
 #############################################
 
-class MachineView(viewsets.ReadOnlyModelViewSet):
+class MachineView(APIView):
     """
     API endpoint that allows machines to be viewed
     This is specifically for the REST API to get machine status
     """
-    queryset = Machine.objects.all()
-    serializer_class = MachineSerializer
+    
+    def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests to update machine status. 
+        Expects a JSON POST request with id and new status of machine.
+        """
+        serializer = MachineWarningSerializer(data=request.data)
+        if serializer.is_valid():
+            machine_id = serializer.validated_data['id']
+            new_status = serializer.validated_data['status']
+
+            try:
+                machine = Machine.objects.get(id=machine_id)
+            except Machine.DoesNotExist:
+                return Response({"error": "Machine not found."}, status=status.HTTP_404_NOT_FOUND)
+
+            # Update the machine status and save the record.
+            machine.status = new_status
+            machine.save()
+
+            return Response({"success": f"Machine '{machine.name}' updated to {new_status}."}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+   
+    def get(self, request, pk=None, *args, **kwargs):
+        """
+        Handles GET requests.
+        If a primary key (pk) is provided in the URL, returns details for that machine;
+        otherwise, returns the list of all machines.
+        """
+        if pk is not None:
+            try:
+                machine = Machine.objects.get(pk=pk)
+            except Machine.DoesNotExist:
+                return Response({"error": "Machine not found."}, status=status.HTTP_404_NOT_FOUND)
+            serializer = MachineStatusSerializer(machine)
+        else:
+            machines = Machine.objects.all()
+            serializer = MachineStatusSerializer(machines, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

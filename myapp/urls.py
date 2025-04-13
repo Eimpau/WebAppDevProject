@@ -5,15 +5,10 @@ This module defines the URL configuration for the Factory Machinery Status & Rep
 It maps URL patterns to view functions, enabling navigation between the application's pages.
 """
 
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
 from . import views
 from .views import MachineView
 
-
-router = routers.DefaultRouter()
-# Registering the MachineView with the router to handle API requests related to machines.
-router.register(r'machines', MachineView)
 
 app_name = "myapp"
 
@@ -48,7 +43,12 @@ urlpatterns = [
     # Delete User route: Enables a manager to delete a user account; identified by user ID.
     path("delete_user/<int:user_id>/", views.delete_user, name="delete_user"),
 
-    # REST API
-    path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # API
+
+    # HTTP POST API
+    path('api/machine/faultUpdate', MachineView.as_view()),
+    
+    # REST API for machine status
+    path('api/machine/', MachineView.as_view()),
+    path('api/machine/<int:pk>/', MachineView.as_view()),
 ]
