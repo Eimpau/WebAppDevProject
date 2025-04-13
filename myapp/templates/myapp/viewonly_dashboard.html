@@ -1,81 +1,90 @@
 {% extends 'myapp/base.html' %}
 {% load static %}
+
 {% block title %}ACME Manufacturing Corp. - View Only Dashboard{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'myapp/viewonly_dashboard.css' %}">
 {% endblock %}
 
-{% block content %} <!-- This is the start of the content block -->
+{% block content %}
 
-<nav class="navbar">
-  <h1>ACME Manufacturing View-Only Panel</h1>
-</nav>
-
-  <main class="container">
-    <h2>Welcome, Observer!</h2>
-    <p>You have view-only access to machine and fault status information.</p>
-
-    <!-- Machine Summary -->
-    <div class="status-cards">
-      <div class="card green">
-        <h3>OK Machines</h3>
-        <p>20</p>
-      </div>
-      <div class="card yellow">
-        <h3>Warnings</h3>
-        <p>4</p>
-      </div>
-      <div class="card red">
-        <h3>Faults</h3>
-        <p>2</p>
-      </div>
+<main class="container">
+  {% comment %} Dynamic Summary Cards: Provide quick statistics such as the count of machines with statuses "OK", "Warning", and "Fault". {% endcomment %}
+  <div class="status-cards">
+    <div class="card green">
+      <h3>OK Machines</h3>
+      <p>{{ ok_count }}</p>
     </div>
+    <div class="card yellow">
+      <h3>Warnings</h3>
+      <p>{{ warning_count }}</p>
+    </div>
+    <div class="card red">
+      <h3>Faults</h3>
+      <p>{{ fault_count }}</p>
+    </div>
+  </div>
 
-    <!-- Machine List -->
-    <section class="table-section">
-      <h3>All Machines</h3>
-      <table>
-        <thead>
+  {% comment %} Section: Machines Table, lists all machines along with their status and associated collections. {% endcomment %}
+  <section class="table-section">
+    <h3>All Machines</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Status</th>
+          <th>Collection</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for machine in machines %}
           <tr>
-            <th>Machine</th>
-            <th>Status</th>
-            <th>Location</th>
-            <th>Details</th>
+            <td>{{ machine.name }}</td>
+            <td>
+              {% if machine.status == "OK" %}
+                <span class="status ok">OK</span>
+              {% elif machine.status == "Warning" %}
+                <span class="status warning">Warning</span>
+              {% elif machine.status == "Fault" %}
+                <span class="status fault">Fault</span>
+              {% else %}
+                {{ machine.status }}
+              {% endif %}
+            </td>
+            <td>
+              {% if machine.collections.all %}
+                {{ machine.collections.all|join:", " }}
+              {% else %}
+                N/A
+              {% endif %}
+            </td>
           </tr>
-        </thead>
-        <tbody>
+        {% empty %}
           <tr>
-            <td>Machine A1</td>
-            <td><span class="status ok">OK</span></td>
-            <td>Building-A</td>
-            <td><a href="#">View</a></td>
+            <td colspan="3">No machines available.</td>
           </tr>
-          <tr>
-            <td>Machine B2</td>
-            <td><span class="status warning">Warning</span></td>
-            <td>MainCampus</td>
-            <td><a href="#">View</a></td>
-          </tr>
-          <tr>
-            <td>Machine C3</td>
-            <td><span class="status fault">Fault</span></td>
-            <td>Floor 2</td>
-            <td><a href="#">View</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
 
-    <!-- Recent Faults -->
-    <section class="table-section">
-      <h3>Recent Fault Cases</h3>
-      <ul>
-        <li><strong>Case #1040:</strong> Machine C3 - Belt Slipping</li>
-        <li><strong>Case #1039:</strong> Machine B2 - Temperature Warning</li>
-        <li><strong>Case #1037:</strong> Machine A5 - Sensor Malfunction (Resolved)</li>
-      </ul
-    </section>
-  </main>
+  {% comment %} Section: Fault Cases History, iterates over all machines and lists any fault cases associated with them.
+  Fault cases are identified with their unique case number, machine name, and fault title. {% endcomment %}
+  <section class="table-section">
+    <h3>Fault Cases History</h3>
+    <ul>
+      {% for machine in machines %}
+        {% for fault in machine.fault_cases.all %}
+          <li>
+            <strong>Case #{{ fault.pk }}:</strong> Machine: {{ fault.machine.name }} | Fault Title: {{ fault.title|default:"No title" }}
+          </li>
+        {% endfor %}
+      {% empty %}
+        <li>No fault cases available.</li>
+      {% endfor %}
+    </ul>
+  </section>
+</main>
 
 {% endblock %}

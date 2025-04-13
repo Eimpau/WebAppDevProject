@@ -1,12 +1,15 @@
 {% extends 'myapp/base.html' %}
 {% load static %}
+
 {% block title %}ACME Manufacturing Corp. - Manager Dashboard{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'myapp/manager_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'myapp/manager_dashboard.css' %}" />
 {% endblock %}
 
-{% block content %} <!-- This is the start of the content block -->
+{% block content %}
+
+{% comment %} Inline style for the modal dialogs used in the dashboard (for additional context) {% endcomment %}
 <style>
   .modal {
     display: none;
@@ -41,229 +44,370 @@
 </style>
 
 
-<body>
+<nav class="navbar">
+  <h1>ACME Manufacturing Manager Panel</h1>
+</nav>
 
-  <nav class="navbar">
-    <h1>ACME Manufacturing Manager Panel</h1>
-  </nav>
+<main class="container">
+  <h2>Welcome, Manager!</h2>
 
-  <main class="container">
-    <h2>Welcome, Manager!</h2>
-
-    <!-- Status Summary Cards -->
-    <div class="status-cards">
-      <div class="card green">
-        <h3>Active Machines</h3>
-        <p>24</p>
-      </div>
-      <div class="card yellow">
-        <h3>Machines Needing Attention</h3>
-        <p>5</p>
-      </div>
-      <div class="card red">
-        <h3>Faulty Machines</h3>
-        <p>2</p>
-      </div>
+  {% comment %} Dynamic Summary Cards: Provide quick statistics such as the count of active, warning and faulty machines {% endcomment %}
+  <div class="status-cards">
+    <div class="card green">
+      <h3>Active Machines</h3>
+      <p>{{ active_machines }}</p>
     </div>
-
-    <!-- Collection Filter -->
-    <section class="table-section">
-      <h3>Filter by Machine Collection</h3>
-      <select>
-        <option>All Collections</option>
-        <option>MainCampus</option>
-        <option>Building-A</option>
-        <option>Soldering-Machines</option>
-      </select>
-    </section>
-
-    <!-- Add/Delete Machines -->
-    <section class="table-section">
-      <h3>Manage Machinery</h3>
-      <form class="add-machine-form">
-        <input type="text" placeholder="Machine Name" required />
-        <input type="text" placeholder="Location/Collection" required />
-        <button type="submit">Add Machine</button>
-      </form>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Machine</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Machine A1</td>
-            <td>OK</td>
-            <td><button class="delete-btn">Delete</button></td>
-          </tr>
-          <tr>
-            <td>Machine B3</td>
-            <td>Fault</td>
-            <td><button class="delete-btn">Delete</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- Assignment Table -->
-    <section class="table-section">
-      <h3>Assign Technicians or Repair Personnel</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Machine</th>
-            <th>Status</th>
-            <th>Assigned Technician</th>
-            <th>Assigned Repair</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Machine A1</td>
-            <td>Warning</td>
-            <td>
-              <select>
-                <option>-- Select Technician --</option>
-                <option>Joe</option>
-                <option>Ana</option>
-              </select>
-            </td>
-            <td>
-              <select>
-                <option>-- Select Repair --</option>
-                <option>Chris</option>
-                <option>Lina</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>Machine B3</td>
-            <td>Fault</td>
-            <td>
-              <select>
-                <option>-- Select Technician --</option>
-                <option>Joe</option>
-                <option>Ana</option>
-              </select>
-            </td>
-            <td>
-              <select>
-                <option>-- Select Repair --</option>
-                <option>Chris</option>
-                <option>Lina</option>
-              </select>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- Export Report -->
-    <div style="text-align: right; margin-top: 2rem;">
-      <button onclick="alert('Export functionality coming soon!')">📄 Export Report</button>
+    <div class="card yellow">
+      <h3>Machines Needing Attention</h3>
+      <p>{{ warning_machines }}</p>
     </div>
-
-    <!-- Fault Cases Table -->
-    <section class="table-section">
-      <h3>Recent Fault Cases</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Machine</th>
-            <th>Issue</th>
-            <th>Reported By</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Machine A1</td>
-            <td>Temperature Spike</td>
-            <td>Joe</td>
-            <td class="status in-progress">In Progress</td>
-            <td>2025-04-07</td>
-            <td><a href="#" onclick="openModal()">View</a></td>
-          </tr>
-          <tr>
-            <td>Machine B3</td>
-            <td>Hydraulic Leak</td>
-            <td>Sara</td>
-            <td class="status unresolved">Unresolved</td>
-            <td>2025-04-06</td>
-            <td><a href="#" onclick="openModal()">View</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- API Test Form -->
-    <section class="table-section">
-      <h3>Test External API Submission</h3>
-      <form onsubmit="postWarning(event)">
-        <label>Machine ID: <input type="text" id="machine-id" required></label>
-        <label>Warning: <input type="text" id="warning-text" required></label>
-        <button type="submit">Send Warning</button>
-      </form>
-    </section>
-
-    <section class="table-section">
-      <h3>Create Users</h3>
-      <form method="post">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Add New User</button>
-
-      </form>
-    </section>
-
-  </main>
-
-  <!-- Modal: Manager View -->
-  <div id="caseModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">&times;</span>
-      <h3>Case #1035 - Fault Details</h3>
-      <p><strong>Machine:</strong> C3</p>
-      <p><strong>Status:</strong> In Progress</p>
-      <p><strong>Reported By:</strong> Technician Joe</p>
-      <h4>Timeline:</h4>
-      <ul>
-        <li>[2025-04-05] Joe: Belt worn.</li>
-        <li>[2025-04-06] Lina: Replacement ordered.</li>
-      </ul>
-      <p style="font-style: italic;">Managers can view only. Use admin panel for actions.</p>
+    <div class="card red">
+      <h3>Faulty Machines</h3>
+      <p>{{ faulty_machines }}</p>
     </div>
   </div>
 
+  {% comment %} Section: Manage Machinery, provides a form for managers to add new machines {% endcomment %}
+  <section class="table-section">
+    <h3>Manage Machinery</h3>
+    {% comment %} Form to add a new machine (supports image upload and collection assignment) {% endcomment %}
+    <form method="post" action="{% url 'myapp:add_machine' %}" class="add-machine-form" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="Machine Name" required />
+      
+      {% comment %} Multi-select for existing collections {% endcomment %}
+      <label for="collections">Select Existing Collection(s):</label>
+      <select name="collections" id="collections" multiple>
+        {% for collection in collections %}
+          <option value="{{ collection.pk }}">{{ collection.name }}</option>
+        {% endfor %}
+      </select>
 
-  <script>
-    function postWarning(e) {
-      e.preventDefault();
-      const id = document.getElementById("machine-id").value;
-      const warning = document.getElementById("warning-text").value;
-      alert(`Simulated POST: Machine ${id} - Warning: "${warning}"`);
+      {% comment %} Input for new collections (comma separated) {% endcomment %}
+      <p>Or create new collection(s) (comma separated, e.g. Main-Campus, Building-A):</p>
+      <input type="text" name="new_collections" placeholder="New Collection Names" />
+
+      {% comment %} Optional image upload field for the machine {% endcomment %}
+      <br>
+      <label for="machine-image">Machine Image (optional):</label>
+      <input type="file" name="image" id="machine-image" accept="image/*" />
+      <br>
+      <button type="submit">Add Machine</button>
+    </form>
+  </section>
+
+  {% comment %} Section: Machine Overview, provides a way to filter the machines by collection, list the machines and a delete them {% endcomment %}
+  <section class="table-section">
+    <h3>Filter by Machine Collection</h3>
+    <select name="collection_filter" id="collection_filter" onchange="filterByCollection()">
+      <option value="">All Collections</option>
+      {% for collection in collections %}
+        <option value="{{ collection.pk }}" {% if request.GET.collection_filter == collection.pk|stringformat:"s" %}selected{% endif %}>
+          {{ collection.name }}
+        </option>
+      {% endfor %}
+    </select>
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Status</th>
+          <th>Collection</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for machine in machines %}
+        <tr>
+          <td>{{ machine.name }}</td>
+          <td>{{ machine.status }}</td>
+          <td>
+            {% if machine.collections.all %}
+              {{ machine.collections.all|join:", " }}
+            {% else %}
+              N/A
+            {% endif %}
+          </td>
+          <td>
+            {% comment %} Form to delete a machine {% endcomment %}
+            <form method="post" action="{% url 'myapp:delete_machine' machine.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="delete-btn">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  {% comment %} Section: Export Report, provides a way for the manager to export a (CSV) based report on current machine filter {% endcomment %}
+  <section class="table-section">
+    <h3>Export Report</h3>
+    <p>Click the button below to export the report based on the selected collection.</p>
+    <button>
+      <a href="{% url 'myapp:export_report' %}?collection_filter={{ request.GET.collection_filter }}" style="text-decoration: none; color: inherit;">
+        Export Report 
+      </a> 
+    </button>
+  </section>
+
+  {% comment %} Section: Machine Assign, provides a way for the managers to assig technicians and repair personnel to machines {% endcomment %}
+  <section class="table-section">
+    <h3>Assign Technicians or Repair Personnel</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Status</th>
+          <th>Assigned Technician</th>
+          <th>Assigned Repair</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for machine in machines %}
+        <tr>
+          <td>{{ machine.name }}</td>
+          <td>{{ machine.status }}</td>
+          <td>
+            {% comment %} Form to assign a technician to the machine {% endcomment %}
+            <form method="post" action="{% url 'myapp:assign_technician' machine.pk %}">
+              {% csrf_token %}
+              <select name="technician_id">
+                <option value="">-- Select Technician --</option>
+                {% for tech in technicians %}
+                  {% if tech in machine.assigned_to.all %}
+                    <option value="{{ tech.pk }}" selected>{{ tech.username }}</option>
+                  {% else %}
+                    <option value="{{ tech.pk }}">{{ tech.username }}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+              <button type="submit">Assign</button>
+            </form>
+          </td>
+          <td>
+            {% comment %} Form to assign repair personnel to the machine {% endcomment %}
+            <form method="post" action="{% url 'myapp:assign_repair' machine.pk %}">
+              {% csrf_token %}
+              <select name="repair_id">
+                <option value="">-- Select Repair --</option>
+                {% for rep in repair_personnel %}
+                  {% if rep in machine.assigned_to.all %}
+                    <option value="{{ rep.pk }}" selected>{{ rep.username }}</option>
+                  {% else %}
+                    <option value="{{ rep.pk }}">{{ rep.username }}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+              <button type="submit">Assign</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4">No machines available for assignment.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  {% comment %} Section: Recent Fault Cases, lists recent fault cases for quick manager review {% endcomment %}
+  <section class="table-section">
+    <h3>Recent Fault Cases</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Machine</th>
+          <th>Issue</th>
+          <th>Reported By</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for fault in recent_fault_cases %}
+        <tr>
+          <td>{{ fault.machine.name }}</td>
+          <td>{{ fault.title|default:"N/A" }}</td>
+          <td>{% if fault.reported_by %}{{ fault.reported_by.username }}{% else %}Unknown{% endif %}</td>
+          <td>{{ fault.get_status_display }}</td>
+          <td>{{ fault.created_at|date:"Y-m-d" }}</td>
+          <td>
+            {% comment %} Button to view detailed fault case information using a modal {% endcomment %}
+            <form style="display:inline;">
+              <button type="button" onclick="openFaultModal(
+                '{{ fault.pk|escapejs }}',
+                '{{ fault.machine.name|escapejs }}',
+                '{{ fault.title|default:"No Title"|escapejs }}',
+                '{{ fault.notes.all.0.note|default:"No Note"|escapejs }}',
+                '{% if fault.reported_by %}{{ fault.reported_by.username|escapejs }}{% else %}Unknown{% endif %}',
+                '{{ fault.get_status_display|escapejs }}',
+                '{{ fault.created_at|date:"Y-m-d H:i:s"|escapejs }}',
+                '{% if fault.notes.all.0.image %}{{ fault.notes.all.0.image.url|escapejs }}{% else %}{{ ""|escapejs }}{% endif %}',
+                '{% if fault.machine.image %}{{ fault.machine.image.url|escapejs }}{% else %}{{ ""|escapejs }}{% endif %}'
+              )">View</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6">No recent fault cases found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  {% comment %} Section: REST API, provides a way for testing external API submission to record a warning and fault cases {% endcomment %}
+  {% comment %} !!!!!!!!!!!!! Needs to be implemented !!!!!!!!!!!!!!! {% endcomment %}
+  <section class="table-section">
+    <h3>Test External API Submission</h3>
+    <form onsubmit="postWarning(event)">
+      <label>Machine ID: <input type="text" id="machine-id" required /></label>
+      <label>Warning: <input type="text" id="warning-text" required /></label>
+      <button type="submit">Send Warning</button>
+    </form>
+  </section>
+
+  {% comment %} Section: Create Users, provides a way for managers to create new user accounts {% endcomment %}
+  <section class="table-section">
+    <h3>Create Users</h3>
+    <form method="post">
+      {% csrf_token %} 
+      {{ form }}
+      <button type="submit">Add New User</button>
+    </form>
+  </section>
+
+  {% comment %} Section: Users Overview, list existing users with options for account deletion {% endcomment %}
+  <section class="table-section">
+    <h3>Existing Users</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.userprofile.role }}</td>
+            <td>
+              <form method="post" action="{% url 'myapp:delete_user' user.pk %}">
+                {% csrf_token %}
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3">No users found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+</main>
+
+{% comment %} Modal Definitions: The fault modal allows managers to view detailed fault case information.
+Their content is dynamically populated via JavaScript. {% endcomment %}
+<div id="faultModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; overflow:auto; background:rgba(0,0,0,0.5);">
+  <div class="modal-content" style="background:#fff; margin:5% auto; padding:20px; width:80%; max-width:600px; position:relative;">
+    <span class="close-btn" onclick="closeFaultModal()" style="position:absolute; top:10px; right:20px; cursor:pointer; font-size:24px;">&times;</span>
+    <div class="modal-header">
+      <h3 id="modal-case-title"></h3>
+    </div>
+    <div class="modal-body">
+      <p><strong>Machine:</strong> <span id="modal-machine"></span></p>
+      <p><strong>Fault Title:</strong> <span id="modal-fault-title"></span></p>
+      <p><strong>Fault Note:</strong> <span id="modal-fault-note"></span></p>
+      <p><strong>Reported By:</strong> <span id="modal-reported-by"></span></p>
+      <p><strong>Status:</strong> <span id="modal-status"></span></p>
+      <p><strong>Created At:</strong> <span id="modal-created-at"></span></p>
+      <p><strong>Machine Image:</strong></p>
+      <img id="modal-machine-image" src="" alt="Machine Image" style="max-width:200px; display:none;">
+      <p><strong>Note Image:</strong></p>
+      <img id="modal-fault-image" src="" alt="Fault Note Image" style="max-width:200px; display:none;">
+    </div>
+  </div>
+</div>
+
+{% comment %} JavaScript Functions:
+  - postWarning: Handle external API simulation for sending warnings and faults. !!! Needs to be implemented !!!
+  - filterByCollection: Redirects to the same page with a collection filter applied.
+  - openFaultModal: Populates and displays the fault details modal.
+  - closeModal / closeFaultModal: Hide modals when finished.
+  - window.onclick: Closes modals if the user clicks outside of them.  {% endcomment %}
+<script>
+  {% comment %} !!!!!!!!!!!!!!! Need to implement REST API call to send warning and fault cases to external system. !!!!!!!!!!!!!!!!!!!!{% endcomment %}
+  function postWarning(e) {
+    e.preventDefault();
+    const id = document.getElementById("machine-id").value;
+    const warning = document.getElementById("warning-text").value;
+    alert(`Simulated POST: Machine ${id} - Warning: "${warning}"`);
+  }
+
+  function filterByCollection() {
+    const selected = document.getElementById("collection_filter").value;
+    const baseUrl = window.location.origin + window.location.pathname;
+    const newUrl = selected ? `${baseUrl}?collection_filter=${selected}` : baseUrl;
+    window.location.href = newUrl;
+  }
+
+  {% comment %} Opens the fault modal with detailed information passed from the view context. {% endcomment %}
+  function openFaultModal(faultId, machineName, faultTitle, faultNote, reportedBy, status, createdAt, faultImageUrl, machineImageUrl) {
+    faultImageUrl = faultImageUrl || "";
+    machineImageUrl = machineImageUrl || "";
+    
+    document.getElementById('modal-case-title').textContent = "Case #" + faultId;
+    document.getElementById('modal-machine').textContent = machineName;
+    document.getElementById('modal-fault-title').textContent = faultTitle;
+    document.getElementById('modal-fault-note').textContent = faultNote;
+    document.getElementById('modal-reported-by').textContent = reportedBy;
+    document.getElementById('modal-status').textContent = status;
+    document.getElementById('modal-created-at').textContent = createdAt;
+    
+    var machineImgEl = document.getElementById('modal-machine-image');
+    if (machineImageUrl.trim() !== '') {
+      machineImgEl.src = machineImageUrl;
+      machineImgEl.style.display = 'block';
+    } else {
+      machineImgEl.style.display = 'none';
     }
-
-    function openModal() {
-      document.getElementById("caseModal").style.display = "block";
+    
+    var noteImgEl = document.getElementById('modal-fault-image');
+    if (faultImageUrl.trim() !== '') {
+      noteImgEl.src = faultImageUrl;
+      noteImgEl.style.display = 'block';
+    } else {
+      noteImgEl.style.display = 'none';
     }
+    
+    document.getElementById('faultModal').style.display = 'block';
+  }
+  
+  function closeFaultModal() {
+    document.getElementById('faultModal').style.display = 'none';
+  }
 
-    function closeModal() {
-      document.getElementById("caseModal").style.display = "none";
-    }
-
-    window.onclick = function (event) {
-      const modal = document.getElementById("caseModal");
+  function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+  }
+  
+  window.onclick = function(event) {
+    var modals = ["noteModal", "faultModal"];
+    modals.forEach(function(id) {
+      var modal = document.getElementById(id);
       if (event.target === modal) {
-        closeModal();
+        closeModal(id);
       }
-    }
-  </script>
-</body>
+    });
+  }
+</script>
 {% endblock %}
